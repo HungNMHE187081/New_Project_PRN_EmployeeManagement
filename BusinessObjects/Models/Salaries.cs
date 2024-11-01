@@ -27,7 +27,7 @@ namespace BusinessObjects.Models
 
         public double Deduction { get; set; } = 0;
 
-        public DateTime? PaymentDate { get; set; }
+        public DateOnly? PaymentDate { get; set; }
 
         [ForeignKey("EmployeeID")]
         public virtual Employees? Employees { get; set; }
