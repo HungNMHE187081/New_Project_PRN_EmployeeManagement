@@ -1,0 +1,80 @@
+﻿<Window x:Class="WPFApp.AttendanceList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFApp"
+        mc:Ignorable="d"
+        Title="AttendanceList" Height="450" Width="800">
+    <DockPanel>
+
+        <!-- Top section with a header using DockPanel -->
+        <DockPanel DockPanel.Dock="Top" Height="50" Background="LightBlue">
+            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
+     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
+
+        <!-- Left navigation menu using StackPanel and DockPanel -->
+        <StackPanel DockPanel.Dock="Left" Width="150" Background="LightGray">
+            <TextBlock Text="Attendance" FontSize="18" FontWeight="Bold" Margin="10"/>
+            <Button Content="Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click"/>
+        </StackPanel>
+        <Canvas x:Name="CheckinLate" Width="646">
+            <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="False" Height="280" Width="525" Canvas.Left="10" Canvas.Top="52" HorizontalAlignment="Center" VerticalAlignment="Top" CanUserAddRows="False" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="80"/>
+                    <DataGridTextColumn Header="Employee Name" Binding="{Binding EmployeeName }" Width="130"/>
+                    <DataGridTemplateColumn Header="CheckIn" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CheckIn,StringFormat={}{0:HH:mm:ss}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="CheckOut" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding CheckOut, StringFormat={}{0:HH:mm:ss}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status }" Width="55"/>
+                    <!-- Cột chứa nút Delete -->
+                    <DataGridTemplateColumn Header="" Width="75">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Salary Detail" Click="SalaryDetailButton_Click" Tag="{Binding EmployeeId}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="CheckInLate" Content="Checkin Late" Canvas.Left="552" Canvas.Top="137" HorizontalAlignment="Center" VerticalAlignment="Center" Height="21" Width="85" Click="CheckinLateButton_Click"/>
+            <Button x:Name="CheckOutSoon" Content="Checkout Soon" Canvas.Left="551" Canvas.Top="190" HorizontalAlignment="Center" VerticalAlignment="Top" Height="21" Width="85" Click="CheckOutSoon_Click"/>
+            <Button x:Name="CheckOutLate" Content="Checkout Late" Canvas.Left="552" Canvas.Top="243" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="85" Click="CheckOutLate_Click"/>
+            <Button x:Name="Absent" Content="Absent" Canvas.Left="551" Canvas.Top="287" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="85" Click="Absent_Click"/>
+            <TextBlock Canvas.Left="12" TextWrapping="Wrap" Text="All Attendance In " Canvas.Top="18" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <Button x:Name="All" Content="All" Canvas.Left="552" Canvas.Top="89" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="85" Click="All_Click"/>
+            <DatePicker x:Name="AttendanceIn" Canvas.Left="121" Canvas.Top="14" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedDateChanged="AttendanceChange"/>
+            <TextBlock Canvas.Left="578" TextWrapping="Wrap" Text="Filter" Canvas.Top="52" HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="85"/>
+        </Canvas>
+
+        <!-- Main content area using Grid -->
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- WrapPanel to dynamically wrap buttons -->
+
+        </Grid>
+    </DockPanel>
+</Window>

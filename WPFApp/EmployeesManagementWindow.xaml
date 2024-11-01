@@ -1,0 +1,238 @@
+﻿<Window x:Class="WPFApp.EmployeesManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Employee Management System"
+        Height="800" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+    
+    <Window.Resources>
+        <!-- Style cho Button -->
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="4"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1976D2"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style cho TextBox -->
+        <Style x:Key="ModernTextBox" TargetType="TextBox">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Style cho ComboBox -->
+        <Style x:Key="ModernComboBox" TargetType="ComboBox">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Style cho DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#DDDDDD"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="White"/>
+            <Setter Property="AlternatingRowBackground" Value="#F8F8F8"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#EEEEEE"/>
+            <Setter Property="VerticalGridLinesBrush" Value="#EEEEEE"/>
+            <Setter Property="RowHeight" Value="40"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#2196F3"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="10,0"/>
+        </Style>
+    </Window.Resources>
+
+    <Border Background="White" Margin="10" CornerRadius="8" 
+            BorderBrush="#DDDDDD" BorderThickness="1">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel - Actions -->
+            <Border Grid.Column="0" Grid.RowSpan="2" 
+                    Background="#F8F9FA" CornerRadius="6" 
+                    Padding="10">
+                <StackPanel>
+                    <TextBlock Text="ACTIONS" Margin="8,0,0,15" 
+                             FontSize="14" FontWeight="Bold" 
+                             Foreground="#495057"/>
+                    <Button x:Name="CreateNewEmployeeAccount" 
+                            Content="Create New Employee Account" 
+                            Style="{StaticResource ActionButton}"
+                            Click="CreateNewEmployeeAccount_Click"/>
+                    <Button x:Name="CreateEmployee" 
+                            Content="Create New Employee"
+                            Style="{StaticResource ActionButton}"
+                            Click="CreateEmployee_Click"/>
+                    <Button x:Name="EditEmployee" 
+                            Content="Edit Employee"
+                            Style="{StaticResource ActionButton}"
+                            Click="EditEmployee_Click"/>
+                    <Button x:Name="DeleteEmployee" 
+                            Content="Delete Employee"
+                            Style="{StaticResource ActionButton}"
+                            Background="#DC3545"
+                            Click="DeleteEmployee_Click"/>
+                    <Button x:Name="RefreshEmployee" 
+                            Content="Refresh Window"
+                            Style="{StaticResource ActionButton}"
+                            Background="#28A745"
+                            Click="RefreshEmployee_Click"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Right Content -->
+            <Grid Grid.Column="1" Grid.RowSpan="2" Margin="15,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Search & Filters -->
+                <StackPanel Grid.Row="0">
+                    <!-- Search Section -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="Search by:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="ComboBoxSearchBy" Width="150" Style="{StaticResource ModernComboBox}" Margin="0,0,10,0"/>
+                        <TextBox x:Name="TextBoxSearch" Width="200" Style="{StaticResource ModernTextBox}" Margin="0,0,10,0"/>
+                        <Button x:Name="ButtonSearch" Content="Search" Width="80" Style="{StaticResource ActionButton}" Height="35" Click="ButtonSearch_Click"/>
+                    </StackPanel>
+
+                    <!-- Filters Section -->
+                    <Border Background="White" Padding="15" CornerRadius="4" Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="Filters" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                            <WrapPanel>
+                                <StackPanel Margin="0,0,10,0">
+                                    <TextBlock Text="Department:" Margin="0,0,0,5"/>
+                                    <ComboBox x:Name="ComboBoxDepartment" 
+                                              Width="150" 
+                                              Style="{StaticResource ModernComboBox}"
+                                              DisplayMemberPath="DepartmentName"
+                                              SelectedValuePath="DepartmentID"/>
+                                </StackPanel>
+                                
+                                <StackPanel Margin="0,0,10,0">
+                                    <TextBlock Text="Gender:" Margin="0,0,0,5"/>
+                                    <ComboBox x:Name="ComboBoxGender" Width="100" Style="{StaticResource ModernComboBox}"/>
+                                </StackPanel>
+                                
+                                <StackPanel Margin="0,0,10,0">
+                                    <TextBlock Text="Min Salary:" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="TextBoxMinSalary" Width="150" Style="{StaticResource ModernTextBox}"/>
+                                </StackPanel>
+                                
+                                <StackPanel Margin="0,0,10,0">
+                                    <TextBlock Text="Max Salary:" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="TextBoxMaxSalary" Width="150" Style="{StaticResource ModernTextBox}"/>
+                                </StackPanel>
+                                
+                                <StackPanel VerticalAlignment="Bottom">
+                                    <Button x:Name="ButtonApplyFilter" Content="Apply" Width="80" Style="{StaticResource ActionButton}" Height="35" Click="ButtonApplyFilter_Click"/>
+                                </StackPanel>
+                                
+                                <StackPanel VerticalAlignment="Bottom">
+                                    <Button x:Name="ButtonClearFilter" Content="Clear" Width="80" Style="{StaticResource ActionButton}" Height="35" Background="#6C757D" Click="ButtonClearFilter_Click"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- DataGrid -->
+                <DataGrid Grid.Row="1" x:Name="DataGridEmployees"
+                         AutoGenerateColumns="False"
+                         SelectionMode="Single"
+                         SelectionUnit="FullRow"
+                         MouseDoubleClick="DataGridEmployees_MouseDoubleClick"
+                         IsReadOnly="True"
+                         AlternationCount="2147483647">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" 
+                                          Width="50"
+                                          Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                          AncestorType={x:Type DataGridRow}}, 
+                                          Path=(ItemsControl.AlternationIndex), 
+                                          Converter={StaticResource RowNumberConverter}}"/>
+                        <DataGridTextColumn Header="Full Name" 
+                                          Binding="{Binding FullName}" 
+                                          Width="*"/>
+                        <DataGridTemplateColumn Header="Avatar" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border CornerRadius="25" Width="50" Height="50">
+                                        <Border.Background>
+                                            <ImageBrush ImageSource="{Binding AvatarPath}"/>
+                                        </Border.Background>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Birth Date" 
+                                          Binding="{Binding BirthDate, StringFormat=dd/MM/yyyy}" 
+                                          Width="100"/>
+                        <DataGridTextColumn Header="Gender" 
+                                          Binding="{Binding Gender}" 
+                                          Width="80"/>
+                        <DataGridTextColumn Header="Department" 
+                                          Binding="{Binding Departments.DepartmentName}" 
+                                          Width="120"/>
+                        <DataGridTextColumn Header="Position" 
+                                          Binding="{Binding Position}" 
+                                          Width="120"/>
+                        <DataGridTextColumn Header="Salary" 
+                                          Binding="{Binding BaseSalary, StringFormat=N0}" 
+                                          Width="100"/>
+                        <DataGridTextColumn Header="Start Date" 
+                                          Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" 
+                                          Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
