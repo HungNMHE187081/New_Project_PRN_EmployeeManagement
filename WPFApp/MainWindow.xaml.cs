@@ -3,8 +3,7 @@ using System.Linq;
 using System.Windows;
 using DataAccessLayer; // Thêm namespace cho DbContext
 using BusinessObjects.Models; // Thêm namespace cho models
-using Microsoft.EntityFrameworkCore;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 namespace WPFApp
 {
     public partial class MainWindow : Window
@@ -24,22 +23,21 @@ namespace WPFApp
                 using (var context = new PRN_EmployeeManagementContext())
                 {
                     var user = context.Users
-                       .FirstOrDefault(u => u.Username == username && u.Password == password);
+                        .FirstOrDefault(u => u.Username == username && u.Password == password);
 
                     if (user != null)
                     {
+                        // Kiểm tra vai trò
                         if (user.RoleID == 1)
                         {
                             this.Hide();
-                            EmployeesManagementWindow employeesWindow = new EmployeesManagementWindow();
-                            employeesWindow.Closed += (s, args) => this.Close();
-                            employeesWindow.Show();
+                            EmployeesManagementWindow managementWindow = new EmployeesManagementWindow();
+                            managementWindow.Show();
                         }
                         else if (user.RoleID == 2)
                         {
                             this.Hide();
-                            CustomerWindow customerWindow = new CustomerWindow();
-                            customerWindow.Closed += (s, args) => this.Close();
+                            CustomerWindow customerWindow = new CustomerWindow(user);
                             customerWindow.Show();
                         }
                     }

@@ -5,35 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Management Window" Height="450" Width="800">
-    <Grid>
+
+    <DockPanel>
+
         <!-- Định nghĩa hai cột: Sidebar và Nội dung chính -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <!-- Sidebar -->
-            <ColumnDefinition Width="*"/>
-            <!-- Nội dung chính -->
-        </Grid.ColumnDefinitions>
+        <DockPanel DockPanel.Dock="Top" Height="50" Background="LightBlue">
+            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
+HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
 
         <!-- Sidebar với các nút chức năng -->
         <StackPanel Grid.Column="0" Background="#EAEAEA" Margin="5">
+            <TextBlock TextWrapping="Wrap" Text="Dashboard" FontSize="16" FontWeight="Bold"/>
             <Button x:Name="ManageUsersAccount" Content="Manage Users Account" Height="40" Margin="5"
                     Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageUsersAccount_Click"/>
             <Button x:Name="ManageEmployeesAccount" Content="Manage Employees" Height="40" Margin="5"
                     Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageEmployeesAccount_Click"/>
-            <Button Content="Manage Departments" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold"/>
-            <Button Content="Manage Salaries" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold"/>
-            <Button Content="Manage Attendance" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+            <Button x:Name="ManageDepartment" Content="Manage Departments" Height="40" Margin="5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageDepartment_Click"/>
+            <Button x:Name="ManageSalary" Content="Manage Salaries" Height="40" Margin="5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageSalary_Click"/>
+            <Button x:Name="ManageAttendance" Content="Manage Attendance" Height="40" Margin="5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageAttendance_Click"/>
             <Button Content="Generate Report" Height="40" Margin="5"
                     Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+            <Button x:Name="Logout" Content="Logout" Height="42"
+                Background="#007ACC" Foreground="White" FontWeight="Bold" Width="130" Click="Logout_Click"/>
         </StackPanel>
 
         <!-- Khu vực nội dung chính -->
-        <Border Grid.Column="1" BorderBrush="#007ACC" BorderThickness="2" Margin="5">
-            <TextBlock Text="Dashboard" HorizontalAlignment="Right" VerticalAlignment="Top"
-                       Margin="10" FontSize="16" FontWeight="Bold"/>
-        </Border>
-    </Grid>
+        <Border Grid.Column="1" BorderBrush="#007ACC" BorderThickness="2" Margin="5"/>
+    </DockPanel>
 </Window>

@@ -9,13 +9,15 @@
     <Grid>
         <StackPanel Grid.Column="0" Background="#EAEAEA" Margin="5,5,605,5">
             <Button x:Name="CreateNewAccount" Content="Create New Account" Height="40" Margin="5"
-                Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+                    Background="#007ACC" Foreground="White" FontWeight="Bold"/>
             <Button x:Name="EditExistedAccount" Content="Edit Existed Account" Height="40" Margin="5"
-                Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+                    Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+            <Button x:Name="Back" Content="Back To Home" Height="40"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="177" Click="Back_Click"/>
         </StackPanel>
         <Border BorderBrush="#007ACC" BorderThickness="2" Margin="205,5,5,5">
             <TextBlock Text="Users Account Management" HorizontalAlignment="Right" VerticalAlignment="Top"
-                Margin="10" FontSize="16" FontWeight="Bold"/>
+                       Margin="10" FontSize="16" FontWeight="Bold"/>
         </Border>
 
     </Grid>
