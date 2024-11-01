@@ -16,8 +16,8 @@ namespace DataAccessLayer
                 var attendance = new Attendances
                 {
                     EmployeeID = employeeId,
-                    Date = DateTime.Now,
-                    CheckIn = DateTime.Now.TimeOfDay,
+                    Date = DateOnly.FromDateTime(DateTime.Now),
+                    CheckIn = TimeOnly.FromDateTime(DateTime.Now),
                     Status = "Present"
                 };
 
@@ -31,7 +31,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetAllEmployeesWithAttendance(DateTime date)
+        public List<EmployeeAttendance> GetAllEmployeesWithAttendance(DateOnly date)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
@@ -50,7 +50,7 @@ namespace DataAccessLayer
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : DateTime.Now,
+                            Date = attendance != null ? attendance.Date : date,
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     )
@@ -60,12 +60,12 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetCheckInLateEmployees(DateTime date)
+        public List<EmployeeAttendance> GetCheckInLateEmployees(DateOnly date)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
                 var result = context.Attendance
-                    .Where(a => a.CheckIn != null && a.CheckIn.Value.Hours > 8)
+                    .Where(a => a.CheckIn != null && a.CheckIn.Value.Hour > 8)
                     .Select(a => new EmployeeAttendance
                     {
                         EmployeeId = (int)a.EmployeeID,
@@ -81,12 +81,12 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetCheckoutSoonEmployee(DateTime date)
+        public List<EmployeeAttendance> GetCheckoutSoonEmployee(DateOnly date)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
                 var result = context.Attendance
-                    .Where(a => a.CheckOut != null && a.CheckOut.Value.Hours < 17)
+                    .Where(a => a.CheckOut != null && a.CheckOut.Value.Hour < 17)
                     .Select(a => new EmployeeAttendance
                     {
                         EmployeeId = (int)a.EmployeeID,
@@ -102,12 +102,12 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetCheckoutLateEmployee(DateTime date)
+        public List<EmployeeAttendance> GetCheckoutLateEmployee(DateOnly date)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
                 var result = context.Attendance
-                    .Where(a => a.CheckOut != null && a.CheckOut.Value.Hours > 17)
+                    .Where(a => a.CheckOut != null && a.CheckOut.Value.Hour > 17)
                     .Select(a => new EmployeeAttendance
                     {
                         EmployeeId = (int)a.EmployeeID,
@@ -123,7 +123,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetAbsentEmployee(DateTime date)
+        public List<EmployeeAttendance> GetAbsentEmployee(DateOnly date)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
@@ -142,7 +142,7 @@ namespace DataAccessLayer
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : DateTime.Now,
+                            Date = attendance != null ? attendance.Date : date,
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     ).Where(a => a.Status == "Absent" && a.Date == date)
@@ -152,7 +152,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetEmployeeWithAttendanceInAday(DateTime day)
+        public List<EmployeeAttendance> GetEmployeeWithAttendanceInAday(DateOnly day)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
@@ -171,7 +171,7 @@ namespace DataAccessLayer
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : DateTime.Now,
+                            Date = attendance != null ? attendance.Date : day,
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     ).Where(DateOnly => DateOnly.Date == day)
@@ -181,7 +181,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetEmployeeAttendancesInADay(DateTime day)
+        public List<EmployeeAttendance> GetEmployeeAttendancesInADay(DateOnly day)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
@@ -200,7 +200,7 @@ namespace DataAccessLayer
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : DateTime.Now,
+                            Date = attendance != null ? attendance.Date : day,
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     )
@@ -216,7 +216,7 @@ namespace DataAccessLayer
             using (var context = new PRN_EmployeeManagementContext())
             {
                 var attendance = context.Attendance
-                    .Where(a => a.EmployeeID == employeeId && a.Date == DateTime.Now)
+                    .Where(a => a.EmployeeID == employeeId && a.Date == DateOnly.FromDateTime(DateTime.Now))
                     .FirstOrDefault();
 
                 if (attendance == null)
@@ -225,7 +225,7 @@ namespace DataAccessLayer
                 }
                 else
                 {
-                    attendance.CheckOut = DateTime.Now.TimeOfDay;
+                    attendance.CheckOut = TimeOnly.FromDateTime(DateTime.Now);
                 }
                 int check = context.SaveChanges();
                 return true;
