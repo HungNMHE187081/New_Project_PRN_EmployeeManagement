@@ -16,11 +16,11 @@ namespace BusinessObjects.Models
         public int? EmployeeID { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
-        public TimeSpan? CheckIn { get; set; }
+        public TimeOnly? CheckIn { get; set; }
 
-        public TimeSpan? CheckOut { get; set; }
+        public TimeOnly? CheckOut { get; set; }
 
         [StringLength(20)]
         public string? Status { get; set; }
