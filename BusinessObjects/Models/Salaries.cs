@@ -21,11 +21,11 @@ namespace BusinessObjects.Models
         [Required]
         public int Year { get; set; }
 
-        public float Allowance { get; set; } = 0;
+        public double Allowance { get; set; } = 0;
 
-        public float Bonus { get; set; } = 0;
+        public double Bonus { get; set; } = 0;
 
-        public float Deduction { get; set; } = 0;
+        public double Deduction { get; set; } = 0;
 
         public DateTime? PaymentDate { get; set; }
 
