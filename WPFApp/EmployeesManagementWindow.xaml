@@ -196,8 +196,7 @@
                                           Width="50"
                                           Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                           AncestorType={x:Type DataGridRow}}, 
-                                          Path=(ItemsControl.AlternationIndex), 
-                                          Converter={StaticResource RowNumberConverter}}"/>
+                                          Path=(ItemsControl.AlternationIndex)}"/>
                         <DataGridTextColumn Header="Full Name" 
                                           Binding="{Binding FullName}" 
                                           Width="*"/>
