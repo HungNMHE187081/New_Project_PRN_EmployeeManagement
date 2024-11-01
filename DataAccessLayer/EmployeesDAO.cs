@@ -151,5 +151,48 @@ namespace DataAccessLayer
 
             return query.ToList();
         }
+        public List<Employees> GetEmployeesByDepartmentId(int departmentId)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                return context.Employees.Where(e => e.DepartmentID == departmentId).ToList();
+            }
+        }
+        public List<Employees> GetUnassignedEmployees()
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                return context.Employees.Where(e => e.DepartmentID == null).ToList();
+            }
+        }
+        public bool AssignEmployeeToDepartment(int employeeId, int departmentId)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                var employee = context.Employees.Find(employeeId);
+                employee.DepartmentID = departmentId;
+                context.SaveChanges();
+                return true;
+            }
+        }
+        public bool RemoveEmployeeFromDepartment(int employeeId)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                var employee = context.Employees.Find(employeeId);
+                employee.DepartmentID = null;
+                context.SaveChanges();
+                return true;
+            }
+        }
+
+        public string GetNameById(int employeeId)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                var employee = context.Employees.Find(employeeId);
+                return employee.FullName;
+            }
+        }
     }
 }

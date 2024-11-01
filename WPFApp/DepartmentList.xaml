@@ -1,0 +1,68 @@
+﻿<Window x:Class="WPFApp.DepartmentList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFApp"
+        mc:Ignorable="d"
+        Title="DepartmentList" Height="450" Width="800">
+    <DockPanel>
+
+        <!-- Top section with a header using DockPanel -->
+        <DockPanel DockPanel.Dock="Top" Height="50" Background="LightBlue">
+            <TextBlock Text="Application Header" FontSize="24" FontWeight="Bold" 
+     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
+
+        <!-- Left navigation menu using StackPanel and DockPanel -->
+        <StackPanel DockPanel.Dock="Left" Width="150" Background="LightGray">
+            <TextBlock Text="Departments" FontSize="18" FontWeight="Bold" Margin="10"/>
+            <Button x:Name="AddDepartment" Content="New Department" Margin="5" Height="40" Width="142" Click="AddButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+            <Button Content="Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+        </StackPanel>
+        <Canvas Width="646">
+            <DataGrid x:Name="DataGridDepartment" AutoGenerateColumns="False" Height="280" Width="510" Canvas.Left="12" Canvas.Top="52" HorizontalAlignment="Left" VerticalAlignment="Center" CanUserAddRows="False" Sorting="SortByNumberASc_Click">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Department ID" Binding="{Binding DepartmentId}" Width="100"/>
+                    <DataGridTextColumn Header="Department Name" Binding="{Binding DepartmentName }" Width="110"/>
+                    <DataGridTextColumn Header="Number of Employee" Binding="{Binding EmployeeCount }" Width="140" SortMemberPath="Num"/>
+
+                    <!-- Cột chứa nút Update -->
+                    <DataGridTemplateColumn Header="Update" Width="75">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Update" Click="UpdateButton_Click" Tag="{Binding DepartmentId}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <!-- Cột chứa nút Delete -->
+                    <DataGridTemplateColumn Header="Delete" Width="75">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Delete" Click="DeleteButton_Click" Tag="{Binding Departmentd}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Canvas.Left="11" TextWrapping="Wrap" Text="Search by Department Name" Canvas.Top="17"/>
+            <TextBox x:Name="SearchName" Canvas.Left="174" TextWrapping="Wrap" Text="" Canvas.Top="18" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" DataContextChanged="SearchDepartment" TextChanged="SearchName_TextChanged"/>
+        </Canvas>
+
+        <!-- Main content area using Grid -->
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- WrapPanel to dynamically wrap buttons -->
+
+        </Grid>
+    </DockPanel>
+</Window>
