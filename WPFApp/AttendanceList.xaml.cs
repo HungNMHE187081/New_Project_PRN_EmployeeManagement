@@ -64,8 +64,8 @@ namespace WPFApp
         {
 
             int employeeId = ((EmployeeAttendance)DataGridAttendance.SelectedItem).EmployeeId;
-            //AdminView.SalaryDetail salaryDetail = new AdminView.SalaryDetail(employeeId);
-           // salaryDetail.Show();
+            SalaryDetail salaryDetail = new SalaryDetail(employeeId);
+            salaryDetail.Show();
             this.Close();
 
         }
@@ -73,42 +73,48 @@ namespace WPFApp
         private void CheckinLateButton_Click(object sender, RoutedEventArgs e)
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetCheckInLateEmployees(DateOnly.FromDateTime(DateTime.Now));
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetCheckInLateEmployees(date);
             DataGridAttendance.ItemsSource = employeeAttendances;
         }
 
         private void CheckOutSoon_Click(object sender, RoutedEventArgs e)
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetCheckoutSoonEmployee(DateOnly.FromDateTime(DateTime.Now));
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetCheckoutSoonEmployee(date);
             DataGridAttendance.ItemsSource = employeeAttendances;
         }
 
         private void CheckOutLate_Click(object sender, RoutedEventArgs e)
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetCheckoutLateEmployee(DateOnly.FromDateTime(DateTime.Now));
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetCheckoutLateEmployee(date);
             DataGridAttendance.ItemsSource = employeeAttendances;
         }
 
         private void Absent_Click(object sender, RoutedEventArgs e)
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetAbsentEmployee(DateOnly.FromDateTime(DateTime.Now));
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetAbsentEmployee(date);
             DataGridAttendance.ItemsSource = employeeAttendances;
         }
 
         private void All_Click(object sender, RoutedEventArgs e)
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetAllEmployeesWithAttendance(DateOnly.FromDateTime(DateTime.Now));
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetAllEmployeesWithAttendance(date);
             DataGridAttendance.ItemsSource = employeeAttendances;
         }
 
         private void AttendanceChange(object sender, SelectionChangedEventArgs e)
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetEmployeeAttendancesInADay(DateOnly.FromDateTime(DateTime.Now));
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetEmployeeAttendancesInADay(date);
             DataGridAttendance.ItemsSource = employeeAttendances;
         }
     }
