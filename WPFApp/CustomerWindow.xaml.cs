@@ -10,7 +10,7 @@ namespace WPFApp
     {
         private PRN_EmployeeManagementContext _context;
 
-        public CustomerWindow()
+        public CustomerWindow(int employeeId)
         {
             InitializeComponent();
             _context = new PRN_EmployeeManagementContext();

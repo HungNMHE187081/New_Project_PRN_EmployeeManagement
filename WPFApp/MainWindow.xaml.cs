@@ -37,7 +37,7 @@ namespace WPFApp
                         else if (user.RoleID == 2)
                         {
                             this.Hide();
-                            CustomerWindow customerWindow = new CustomerWindow(user);
+                            CustomerWindow customerWindow = new CustomerWindow(user.Employees.EmployeeID);
                             customerWindow.Show();
                         }
                     }
