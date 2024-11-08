@@ -3,37 +3,90 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="Management Window" Height="450" Width="800">
 
     <DockPanel>
 
-        <!-- Định nghĩa hai cột: Sidebar và Nội dung chính -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="LightBlue">
+        <!-- Header section -->
+        <DockPanel DockPanel.Dock="Top" Height="50" Background="#34495E">
             <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
-HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button x:Name="Logout" Content="Logout" Height="39" Margin="0,10,10,0"
+                    Background="#E74C3C" Foreground="White" FontWeight="Bold" Width="100" 
+                    HorizontalAlignment="Right" VerticalAlignment="Center" Click="Logout_Click"/>
         </DockPanel>
 
-        <!-- Sidebar với các nút chức năng -->
-        <StackPanel Grid.Column="0" Background="#EAEAEA" Margin="5">
-            <TextBlock TextWrapping="Wrap" Text="Dashboard" FontSize="16" FontWeight="Bold"/>
-            <Button x:Name="ManageUsersAccount" Content="Manage Users Account" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageUsersAccount_Click"/>
-            <Button x:Name="ManageEmployeesAccount" Content="Manage Employees" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageEmployeesAccount_Click"/>
-            <Button x:Name="ManageDepartment" Content="Manage Departments" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageDepartment_Click"/>
-            <Button x:Name="ManageSalary" Content="Manage Salaries" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageSalary_Click"/>
-            <Button x:Name="ManageAttendance" Content="Manage Attendance" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Click="ManageAttendance_Click"/>
-            <Button Content="Generate Report" Height="40" Margin="5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold"/>
-            <Button x:Name="Logout" Content="Logout" Height="42"
-                Background="#007ACC" Foreground="White" FontWeight="Bold" Width="130" Click="Logout_Click"/>
+        <!-- Sidebar with navigation buttons -->
+        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
+            <TextBlock Text="Dashboard" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
+            <Button x:Name="ManageUsersAccount" Content="👤 Dashboard" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageUsersAccount_Click"/>
+            <Button x:Name="ManageEmployeesAccount" Content="👥 Manage Employees" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageEmployeesAccount_Click"/>
+            <Button x:Name="ManageDepartment" Content="🏢 Manage Departments" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageDepartment_Click"/>
+            <Button x:Name="ManageSalary" Content="💰 Manage Salaries" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageSalary_Click"/>
+            <Button x:Name="ManageAttendance" Content="📅 Manage Attendance" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageAttendance_Click"/>
+            <Button Content="📊 Generate Report" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="Button_Click"/>
+            <Button x:Name="Notification" Content="🔔 Notification" Height="30" Margin="10,5"
+                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="Notification_Click"/>
         </StackPanel>
 
-        <!-- Khu vực nội dung chính -->
-        <Border Grid.Column="1" BorderBrush="#007ACC" BorderThickness="2" Margin="5"/>
+        <!-- Main content area -->
+        <Border BorderBrush="#007ACC" BorderThickness="2" Margin="5" Background="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+
+                <!-- First chart title -->
+                <TextBlock Grid.Row="0" Text="Employee Distribution(Take from top 4 Departments)" FontSize="12" FontWeight="Bold" 
+             HorizontalAlignment="Center" Margin="10"/>
+
+                <!-- First chart -->
+                <lvc:CartesianChart Margin="10,0,10,0" Height="199" VerticalAlignment="Center" Loaded="CartesianChart_Loaded" Grid.Row="1">
+                    <lvc:CartesianChart.Series>
+                        <lvc:ColumnSeries Title="Employees" Values="{Binding EmployeeValues}"/>
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Departments" Labels="{Binding DepartmentLabels}"/>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Number of Employees"/>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+
+                <!-- Second chart title -->
+                <TextBlock Grid.Row="2" Text="Average Salary by Department(Take From Top 4 Departments)" FontSize="12" FontWeight="Bold" 
+             HorizontalAlignment="Center" Margin="0,20,0,0"/>
+
+                <!-- Second chart -->
+                <lvc:CartesianChart Grid.Row="3" Margin="10,14,10,28" Grid.RowSpan="3">
+                    <lvc:CartesianChart.Series>
+                        <lvc:LineSeries Title="Salaries" Values="{Binding SalaryValues}"/>
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Departments" Labels="{Binding DepartmentLabels}"/>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Average Salary"/>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+
+                <!-- Third chart title -->
+
+                <!-- Third chart -->
+            </Grid>
+        </Border>
     </DockPanel>
 </Window>

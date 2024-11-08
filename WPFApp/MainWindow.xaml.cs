@@ -22,7 +22,7 @@ namespace WPFApp
 
                 using (var context = new PRN_EmployeeManagementContext())
                 {
-                    var user = context.Users
+                    Users user = context.Users
                         .FirstOrDefault(u => u.Username == username && u.Password == password);
 
                     if (user != null)
@@ -30,15 +30,16 @@ namespace WPFApp
                         // Kiểm tra vai trò
                         if (user.RoleID == 1)
                         {
-                            this.Hide();
-                            EmployeesManagementWindow managementWindow = new EmployeesManagementWindow();
+                            ManagementWindow managementWindow = new ManagementWindow();
                             managementWindow.Show();
+                            this.Close();
                         }
                         else if (user.RoleID == 2)
                         {
-                            this.Hide();
-                            CustomerWindow customerWindow = new CustomerWindow(user.Employees.EmployeeID);
+                            int employeeId = user.UserID;
+                            CustomerWindow customerWindow = new CustomerWindow(employeeId);
                             customerWindow.Show();
+                            this.Close();
                         }
                     }
                     else

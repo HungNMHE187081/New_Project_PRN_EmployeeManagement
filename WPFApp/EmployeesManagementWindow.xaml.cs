@@ -262,5 +262,12 @@ namespace WPFApp
                 MessageBox.Show("Tạo tài khoản nhân viên mới thành công!");
             }
         }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            ManagementWindow managementWindow = new ManagementWindow();
+            managementWindow.Show();
+            this.Close();
+        }
     }
 }

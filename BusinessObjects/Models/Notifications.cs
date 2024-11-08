@@ -10,22 +10,21 @@ namespace BusinessObjects.Models
 {
     public class Notifications
     {
-        [Key]
-        public int NotificationID { get; set; }
+        public int NotificationId { get; set; }
 
-        [Required]
-        [StringLength(100)]
         public string Title { get; set; } = null!;
 
-        [StringLength(500)]
         public string? Message { get; set; }
 
-        public int? DepartmentID { get; set; }
+        public int? DepartmentId { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime? CreatedDate { get; set; }
 
-        [ForeignKey("DepartmentID")]
-        public virtual Departments? Departments { get; set; }
+        public int EmployeeId { get; set; }
+
+        public int IsApproved { get; set; }
+
+        public virtual Departments? Department { get; set; }
     }
 
 }

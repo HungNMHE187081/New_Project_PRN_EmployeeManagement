@@ -43,9 +43,8 @@ namespace WPFApp
 
         private void LoadInitialData()
         {
-            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "Male" });
-            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "Female" });
-
+            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "M" });
+            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "F" });
             LoadDepartments();
             LoadUnassignedUsers();
 
@@ -83,10 +82,28 @@ namespace WPFApp
                 ComboBoxGender.SelectedItem = ComboBoxGender.Items.Cast<ComboBoxItem>()
                     .FirstOrDefault(item => item.Content.ToString() == _employee.Gender);
             }
-
+            List<String> gender = new List<string>();
+            gender.Add("F");
+            gender.Add("M");
             TextBoxAddress.Text = _employee.Address;
             TextBoxPhone.Text = _employee.Phone;
             ComboBoxDepartment.SelectedValue = _employee.DepartmentID;
+            ComboBoxGender.ItemsSource = gender;
+            if (_employee.Gender != null)
+            {
+                if (_employee.Gender.Equals("F"))
+                {
+                    ComboBoxGender.SelectedIndex = 0;
+                }
+                else
+                {
+                    ComboBoxGender.SelectedIndex = 1;
+                }
+            }
+            else
+            {
+                ComboBoxGender.SelectedIndex = 0;
+            }
             TextBoxPosition.Text = _employee.Position;
             TextBoxBaseSalary.Text = _employee.BaseSalary.ToString("N0");
             DatePickerStartDate.SelectedDate = _employee.StartDate;
@@ -170,7 +187,7 @@ namespace WPFApp
 
                 employee.FullName = TextBoxFullName.Text.Trim();
                 employee.BirthDate = DatePickerBirthDate.SelectedDate!.Value;
-                employee.Gender = (ComboBoxGender.SelectedItem as ComboBoxItem)?.Content.ToString();
+                employee.Gender = ComboBoxGender.Text;
                 employee.Address = TextBoxAddress.Text?.Trim();
                 employee.Phone = TextBoxPhone.Text?.Trim();
                 employee.DepartmentID = (int)ComboBoxDepartment.SelectedValue;
@@ -209,7 +226,7 @@ namespace WPFApp
                 if (_isEditMode)
                 {
                     _employeesService.UpdateEmployee(employee);
-                    MessageBox.Show("Employee updated successfully!");
+                    MessageBox.Show("Employee updated successfully!"+ComboBoxGender.Text);
                 }
                 else
                 {

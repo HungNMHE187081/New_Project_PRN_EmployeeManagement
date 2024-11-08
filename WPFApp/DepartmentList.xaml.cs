@@ -22,6 +22,7 @@ namespace WPFApp
     /// </summary>
     public partial class DepartmentList : Window
     {
+        private int deleteDepartmentId;
         public DepartmentList()
         {
             InitializeComponent();
@@ -57,15 +58,13 @@ namespace WPFApp
         {
             int number_of_employees = 0;
             DepartmentsDAO departmentDAO = new DepartmentsDAO();
-            Button deleteButton = (Button)sender;
-            int departmentId = (int)deleteButton.Tag;
-            number_of_employees = departmentDAO.GetnumberOfEmployeeOfADepartment(departmentId);
+            number_of_employees = departmentDAO.GetnumberOfEmployeeOfADepartment(deleteDepartmentId);
             if (number_of_employees > 0)
             {
                 MessageBox.Show("Cannot delete department with employees");
                 return;
             }
-            bool result = departmentDAO.DeleteDepartment(departmentId);
+            bool result = departmentDAO.DeleteDepartment(deleteDepartmentId);
             if (result)
             {
                 MessageBox.Show("Delete successfully");
@@ -129,6 +128,26 @@ namespace WPFApp
 
         private void SortByNumberASc_Click(object sender, DataGridSortingEventArgs e)
         {
+
+        }
+
+        private void ApproveConfirmation(object sender, RoutedEventArgs e)
+        {
+            ConfirmBox.Visibility = Visibility.Hidden;
+            DeleteButton_Click(sender, e);
+        }
+
+        private void DisapproveConfirmation(object sender, RoutedEventArgs e)
+        {
+            ConfirmBox.Visibility = Visibility.Hidden;
+        }
+
+        private void OpenBox(object sender, RoutedEventArgs e)
+        {
+            ConfirmBox.Visibility = Visibility.Visible;
+            Button deleteButton = (Button)sender;
+            int departmentId = (int)deleteButton.Tag;
+            deleteDepartmentId = departmentId;
 
         }
     }

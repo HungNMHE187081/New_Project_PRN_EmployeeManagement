@@ -154,12 +154,20 @@ namespace DataAccessLayer
             // Configure Notification
             modelBuilder.Entity<Notifications>(entity =>
             {
-                entity.HasKey(e => e.NotificationID);
-                entity.Property(e => e.Title).HasMaxLength(100).IsRequired();
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("GETDATE()");
-                entity.HasOne(d => d.Departments)
-                    .WithMany(p => p.Notifications)
-                    .HasForeignKey(d => d.DepartmentID);
+                entity.HasKey(e => e.NotificationId);
+
+                entity.Property(e => e.NotificationId).HasColumnName("NotificationID");
+                entity.Property(e => e.CreatedDate)
+                    .HasDefaultValueSql("(getdate())")
+                    .HasColumnType("datetime");
+                entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
+                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+                entity.Property(e => e.Message).HasMaxLength(500);
+                entity.Property(e => e.Title).HasMaxLength(100);
+
+                entity.HasOne(d => d.Department).WithMany(p => p.Notifications)
+                    .HasForeignKey(d => d.DepartmentId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             // Configure ActivityLog

@@ -1,0 +1,56 @@
+﻿<Window x:Class="WPFApp.EmployeeAttendanceRequest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFApp"
+        mc:Ignorable="d"
+        Title="Employee Attendance Request" Height="450" Width="800">
+    <DockPanel>
+        <!-- Top Header with Centered Title -->
+        <DockPanel DockPanel.Dock="Top" Height="70" Background="#2C3E50">
+            <TextBlock Text="Employee Attendance Request" FontSize="28" FontWeight="Bold" 
+                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+        </DockPanel>
+
+        <!-- Left Navigation Panel with Buttons and Icons -->
+        <StackPanel DockPanel.Dock="Left" Width="217" Background="#34495E" Margin="0,0,5,0">
+            <TextBlock Text="Attendance Request" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
+            <Button x:Name="Logout" Content="📴 Back To Home" Margin="10,5" Height="45" Width="180"  
+                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium" Click="Logout_Click"/>
+        </StackPanel>
+
+        <!-- Main Content Area with a Placeholder Section -->
+        <Grid x:Name="MainContentGrid" Margin="10">
+            <!-- Default Content -->
+            <TextBlock x:Name="DefaultContent" Text="Create request for absence."
+                   FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="29,10,0,0"/>
+
+            <!-- Department Management Section -->
+            <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
+                <TextBlock Text="Department Management" FontSize="18" Margin="10"/>
+                <DataGrid x:Name="DataGridDepartments" AutoGenerateColumns="True" Margin="10"/>
+            </StackPanel>
+
+            <!-- Attendance Management Section -->
+            <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
+                <TextBlock Text="Attendance Management" FontSize="18" Margin="10"/>
+                <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="True" Margin="10"/>
+            </StackPanel>
+
+            <!-- Salary Management Section -->
+            <StackPanel x:Name="SalarySection" Visibility="Collapsed">
+                <TextBlock Text="Salary Management" FontSize="18" Margin="10"/>
+                <DataGrid x:Name="DataGridSalaries" AutoGenerateColumns="True" Margin="10"/>
+            </StackPanel>
+
+            <!-- Form Elements -->
+            <TextBlock HorizontalAlignment="Left" Margin="29,108,0,0" TextWrapping="Wrap" Text="Expected Date:" VerticalAlignment="Top"/>
+            <DatePicker x:Name="ExpectedDate" HorizontalAlignment="Left" Margin="181,102,0,0" VerticalAlignment="Top" SelectedDateChanged="ValidDate"/>
+            <TextBlock HorizontalAlignment="Left" Margin="29,158,0,0" TextWrapping="Wrap" Text="Message:" VerticalAlignment="Top"/>
+            <TextBox x:Name="Message" HorizontalAlignment="Left" Margin="181,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" Height="75"/>
+            <Button x:Name="Save" Content="💾 Request" HorizontalAlignment="Left" Margin="181,245,0,0" VerticalAlignment="Top" Height="24" Width="80" 
+                Background="#3498DB" Foreground="White" FontSize="10" FontWeight="Medium" Click="Save_Click"/>
+        </Grid>
+    </DockPanel>
+</Window>

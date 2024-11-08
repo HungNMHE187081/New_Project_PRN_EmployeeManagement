@@ -18,11 +18,11 @@ namespace DataAccessLayer
             }
         }
 
-        public List<SalaryModification> GetSalaryModificationsOfAnEmployee(int employeeId)
+        public List<SalaryModification> GetSalaryModificationsOfAnEmployee(int employeeId, DateOnly date)
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
-                return context.SalaryModifications.Where(o => o.EmployeeId == employeeId).ToList();
+                return context.SalaryModifications.Where(o => o.EmployeeId == employeeId&&o.Date.Month==date.Month).ToList();
             }
         }
 
@@ -75,6 +75,14 @@ namespace DataAccessLayer
                 s.PaymentDate = salary.PaymentDate;
                 context.SaveChanges();
                 return true;
+            }
+        }
+
+        public Salaries GetSalariesByEmployeeId(int employee_id)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                return context.Salaries.Where(o => o.EmployeeID == employee_id).FirstOrDefault();
             }
         }
     }

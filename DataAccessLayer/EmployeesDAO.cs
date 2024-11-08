@@ -194,5 +194,18 @@ namespace DataAccessLayer
                 return employee.FullName;
             }
         }
+
+        public string GetDepartmentNameById(int employeeId)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                int departmentId = context.Employees.Find(employeeId).DepartmentID ?? 0;
+                if (departmentId == 0)
+                {
+                    return "Unassigned";
+                }
+                return context.Departments.Find(departmentId).DepartmentName;
+            }
+        }
     }
 }
