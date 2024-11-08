@@ -44,9 +44,9 @@ namespace WPFApp
 
         private void SalaryDetailButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DateOnly date=DateOnly.Parse(PaymentDate.Text);
             int employeeId = (int)(DataGridSalary.SelectedItem as Salaries).EmployeeID;
-            SalaryDetail salaryDetail = new SalaryDetail(employeeId);
+            SalaryDetail salaryDetail = new SalaryDetail(employeeId,date,"salary_list");
             salaryDetail.Show();
             this.Close();
 

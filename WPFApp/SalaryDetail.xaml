@@ -7,21 +7,32 @@
         mc:Ignorable="d"
         Title="SalaryDetail" Height="450" Width="800">
     <DockPanel>
-
         <!-- Top section with a header using DockPanel -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="LightBlue">
-            <TextBlock Text="Employee Management " FontSize="24" FontWeight="Bold" 
- HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DockPanel DockPanel.Dock="Top" Height="50" Background="#3A7CA5">
+            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
+                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </DockPanel>
 
         <!-- Left navigation menu using StackPanel and DockPanel -->
-        <StackPanel DockPanel.Dock="Left" Width="150" Background="LightGray">
-            <TextBlock Text="Salary Detail" FontSize="18" FontWeight="Bold" Margin="10"/>
-            <Button Content="Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
+            <TextBlock Text="Salary Detail" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
+            <Button Content="🏠 Back To Home" Margin="10,5" Height="45" Width="180" 
+                    Click="BackButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
         </StackPanel>
 
-        <Canvas x:Name="CheckinLate" Width="648">
-            <ListBox x:Name="EmployeeListBox">
+        <!-- Main content area using Grid -->
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Employee List -->
+            <ListBox x:Name="EmployeeListBox" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -35,50 +46,29 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <DataGrid x:Name="DataGridSalaryModification" AutoGenerateColumns="False" Height="362" Width="448" Canvas.Left="10" Canvas.Top="12" HorizontalAlignment="Left" VerticalAlignment="Center" CanUserAddRows="False"  >
+
+            <!-- Salary Modification DataGrid -->
+            <DataGrid x:Name="DataGridSalaryModification" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0" Margin="0,10,10,0" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="80"/>
-
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status }" Width="65"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount }" Width="55"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description }" Width="160"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="65"/>
+                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="55"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="160"/>
                     <DataGridTemplateColumn Header="Date" Width="110">
-
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Date, StringFormat={}{0:dd-MM-yyyy}}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <!-- Cột chứa nút Delete -->
-
-
                 </DataGrid.Columns>
             </DataGrid>
-            <Canvas Height="384" Width="185" HorizontalAlignment="Left" Canvas.Left="463" VerticalAlignment="Center">
-                <TextBlock x:Name="ReportEmployeeName" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="34" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock x:Name="ReportDate" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="81" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock x:Name="ReportDescription" Canvas.Left="9" TextWrapping="Wrap" Canvas.Top="124" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock x:Name="Amount" Canvas.Left="7" TextWrapping="Wrap" Canvas.Top="146" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button x:Name="Export" Content="Export" Canvas.Left="115" Canvas.Top="332" Click="Export_Click" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            </Canvas>
 
-
-        </Canvas>
-
-        <!-- Main content area using Grid -->
-        <Grid Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- WrapPanel to dynamically wrap buttons -->
-
+            <!-- Report Section -->
+            <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10">
+                <TextBlock x:Name="ReportEmployeeName"  Margin="0,0,0,10"/>
+                <Button x:Name="Export" Content="📤 Export" Width="100" Click="Export_Click" Background="#007ACC" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+            </StackPanel>
         </Grid>
     </DockPanel>
 </Window>

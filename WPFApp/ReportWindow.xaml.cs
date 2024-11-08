@@ -1,4 +1,5 @@
 ﻿using BusinessObjects.Models;
+using ClosedXML.Excel;
 using DataAccessLayer;
 using Services;
 using System;
@@ -29,26 +30,27 @@ namespace WPFApp
         public ReportWindow()
         {
             InitializeComponent();
+            _reportService = new ReportService();
         }
-        //private void Window_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    LoadEmployeeStatistics();
-        //}
-        //private void LoadEmployeeStatistics()
-        //{
-        //    try
-        //    {
-        //        dgData.ItemsSource = null;
-        //        var reports = _reportService.GetReports();
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadEmployeeStatistics();
+        }
+        private void LoadEmployeeStatistics()
+        {
+            try
+            {
+                dgData.ItemsSource = null;
+                var reports = _reportService.GetReports();
 
-        //        dgData.ItemsSource = reports;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
+                dgData.ItemsSource = reports;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-        //}
+        }
 
         private void dgData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -57,49 +59,66 @@ namespace WPFApp
 
         private void btnGenerate_Click(object sender, RoutedEventArgs e)
         {
-            //string currentDate = DateTime.Now.ToString("yyyy_MM_dd");
-            //string filePath = @"C:\FPT\GeneralReport_" + currentDate + ".xlsx";
-            //try
-            //{
-            //    // Call the export function
-            //    ExportDataGridToExcel(dgData, filePath);
+            string currentDate = DateTime.Now.ToString("yyyy_MM_dd");
+            string filePath = @"D:\Project\GeneralReport_" + currentDate + ".xlsx";
+            try
+            {
+                // Call the export function
+                ExportDataGridToExcel(dgData, filePath);
 
-            //    // Optionally, show a confirmation message
-            //    MessageBox.Show("Data exported successfully!", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Information);
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Display an error message if export fails
-            //    MessageBox.Show($"An error occurred: {ex.Message}", "Export Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-            //}
+                // Optionally, show a confirmation message
+                MessageBox.Show("Data exported successfully!", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // Display an error message if export fails
+                MessageBox.Show($"An error occurred: {ex.Message}", "Export Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-        //public void ExportDataGridToExcel(DataGrid dataGrid, string filePath)
-        //{
-        //    using (var workbook = new XLWorkbook())
-        //    {
-        //        var worksheet = workbook.Worksheets.Add("Data");
+        public void ExportDataGridToExcel(DataGrid dataGrid, string filePath)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Data");
 
-        //        // Add headers
-        //        for (int i = 0; i < dataGrid.Columns.Count; i++)
-        //        {
-        //            //worksheet.Cell(1, i + 1).Value = dataGrid.Columns[i].Header;
-        //            worksheet.Cell(1, i + 1).Value = dataGrid.Columns[i].Header?.ToString() ?? string.Empty;
+                // Add headers
+                for (int i = 0; i < dataGrid.Columns.Count; i++)
+                {
+                    //worksheet.Cell(1, i + 1).Value = dataGrid.Columns[i].Header;
+                    worksheet.Cell(1, i + 1).Value = dataGrid.Columns[i].Header?.ToString() ?? string.Empty;
 
-        //        }
+                }
 
-        //        // Add data rows
-        //        for (int row = 0; row < dataGrid.Items.Count; row++)
-        //        {
-        //            for (int col = 0; col < dataGrid.Columns.Count; col++)
-        //            {
-        //                var cellValue = (dataGrid.Columns[col].GetCellContent(dataGrid.Items[row]) as TextBlock)?.Text;
-        //                worksheet.Cell(row + 2, col + 1).Value = cellValue;
-        //            }
-        //        }
+                // Add data rows
+                for (int row = 0; row < dataGrid.Items.Count; row++)
+                {
+                    for (int col = 0; col < dataGrid.Columns.Count; col++)
+                    {
+                        var cellValue = (dataGrid.Columns[col].GetCellContent(dataGrid.Items[row]) as TextBlock)?.Text;
+                        worksheet.Cell(row + 2, col + 1).Value = cellValue;
+                    }
+                }
 
-        //        // Save to file
-        //        workbook.SaveAs(filePath);
-        //    }
-        //}
+                // Save to file
+                workbook.SaveAs(filePath);
+            }
+        }
+
+        private void CheckOutButtonClick(object sender, RoutedEventArgs e)
+        {
+            ManagementWindow managementWindow= new ManagementWindow();
+            managementWindow.Show();
+            this.Close();
+        }
+
+        private void ReportButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Notification_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

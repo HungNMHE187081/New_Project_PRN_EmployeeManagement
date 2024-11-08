@@ -210,6 +210,42 @@ namespace DataAccessLayer
             }
         }
 
+        public List<int> GetNumberOfEmployeesInEachDepartment()
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT TOP 4 DepartmentID, EmployeeCount FROM (   SELECT DepartmentID, COUNT(*) AS EmployeeCount    FROM Employees    GROUP BY DepartmentID) AS DepartmentEmployeeCounts ORDER BY EmployeeCount DESC ";
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                List<int> result = new List<int>();
+                while (reader.Read())
+                {
+                    result.Add(reader.GetInt32(1));
+                }
+                return result;
+            }
+        }
+
+        public List<double> GetSalaryOfEachDepartment()
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT TOP 4 B.DepartmentID, SUM(A.Allowance) " +
+                    " as avg_salary FROM Salaries A, Employees B " +
+                    " WHERE A.EmployeeID=B.EmployeeID AND B.DepartmentID IS NOT NULL  " +
+                    " GROUP BY B.DepartmentID ORDER BY avg_salary";
+                SqlCommand command = new SqlCommand(sql, connection);
+                SqlDataReader reader = command.ExecuteReader();
+                List<double> result = new List<double>();
+                while (reader.Read())
+                {
+                    result.Add(reader.GetDouble(1));
+                }
+                return result;
+            }
+        }
 
     }
 }

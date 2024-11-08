@@ -1,49 +1,53 @@
-﻿<Window x:Class="WPFApp.ReportWindow"
+﻿<Window x:Class="WPFApp.PersonalReport"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFApp"
         mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="ReportWindow" Height="450" Width="800">
+        Title="PersonalReport" Height="450" Width="800">
+
+        
+
+
     <DockPanel>
         <!-- Top Header with Centered Title -->
         <DockPanel DockPanel.Dock="Top" Height="70" Background="#3A7CA5">
             <TextBlock Text="Employee " FontSize="28" FontWeight="Bold" 
-            Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+               Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
         </DockPanel>
 
         <!-- Left Navigation Panel with Buttons and Icons -->
         <StackPanel DockPanel.Dock="Left" Width="200" Background="#E1E1E1" Margin="0,0,5,0">
             <TextBlock Text="Menu" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="#333"/>
             <Button Content="💰 Report" Margin="10,5" Height="45" Width="180" Click="ReportButtonClick" 
-         Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium"/>
+            Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium"/>
             <Button x:Name="Notification" Content="🔔 Notification" Margin="10,5" Height="45" Width="180" 
-         Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium" Click="Notification_Click"/>
+            Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium" Click="Notification_Click"/>
             <Button x:Name="Back" Content="Back to Home" Margin="10,5" Height="45" Width="180" Click="CheckOutButtonClick" 
-         Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium"/>
+            Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium"/>
         </StackPanel>
 
         <!-- Main Content Area with a Placeholder Section -->
         <Grid x:Name="MainContentGrid" Margin="10">
             <!-- Default Content -->
             <DataGrid x:Name="dgData"
-   SelectionChanged="dgData_SelectionChanged"
-   Margin="0,2,0,73"
-   ColumnWidth="*" />
+      SelectionChanged="dgData_SelectionChanged"
+      Margin="0,2,0,73"
+      ColumnWidth="*" />
 
             <Button Content="Generate"
- FontSize="20"
- Click="btnGenerate_Click"
- HorizontalAlignment="Left"
- x:Name="btnGenerate"
- Margin="455,306,0,0"
- VerticalAlignment="Top"
- Width="110"
- Height="28"
- Background="#FFD6EFF3"
- FontFamily="Arial Narrow"
-                 />
+    FontSize="20"
+    Click="btnGenerate_Click"
+    HorizontalAlignment="Left"
+    x:Name="btnGenerate"
+    Margin="455,306,0,0"
+    VerticalAlignment="Top"
+    Width="110"
+    Height="28"
+    Background="#FFD6EFF3"
+    FontFamily="Arial Narrow"
+                    />
             <!-- Department Management Section -->
             <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
                 <TextBlock Text="Department Management" FontSize="18" Margin="10"/>

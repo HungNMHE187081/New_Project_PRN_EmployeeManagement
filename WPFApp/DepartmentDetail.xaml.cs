@@ -93,7 +93,7 @@ namespace WPFApp
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             AssignEmployee.Visibility = Visibility.Visible;
-            DepartmentNameonCanvas.Text = DepartmentName.Text;
+            DepartmentNameonCanvas.Text += DepartmentName.Text;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -122,6 +122,38 @@ namespace WPFApp
             {
                 MessageBox.Show("Update failed");
             }
+        }
+
+        private void ApproveConfirmation(object sender, RoutedEventArgs e)
+        {
+            if(MessageConfirm.Text == "Are you sure to assign this employee?")
+            {
+                ConfirmBox.Visibility = Visibility.Hidden;
+                AssignButton_Click(sender, e);
+            }
+            else if (MessageConfirm.Text == "Are you sure to remove this employee?")
+            {
+                ConfirmBox.Visibility = Visibility.Hidden;
+                DeleteButton_Click(sender, e);
+            }
+        }
+
+        private void DisapproveConfirmation(object sender, RoutedEventArgs e)
+        {
+            ConfirmBox.Visibility = Visibility.Hidden;
+        }
+
+        private void OpenBoxForAssign(object sender, RoutedEventArgs e)
+        {
+            MessageConfirm.Text = "Are you sure to assign this employee?";
+            ConfirmBox.Visibility = Visibility.Visible;
+
+        }
+        private void OpenForRemoveBox(object sender, RoutedEventArgs e)
+        {
+           MessageConfirm.Text = "Are you sure to remove this employee?";
+            ConfirmBox.Visibility = Visibility.Visible;
+
         }
     }
 }

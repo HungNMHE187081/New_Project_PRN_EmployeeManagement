@@ -29,14 +29,15 @@ namespace WPFApp
         public void LoadData()
         {
             AttendanceDAO attendanceDAO = new AttendanceDAO();
-            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetAllEmployeesWithAttendance(DateOnly.FromDateTime(DateTime.Now));
-            DataGridAttendance.ItemsSource = employeeAttendances;
             AttendanceIn.Text = DateOnly.FromDateTime(DateTime.Now).ToString();
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
+            List<EmployeeAttendance> employeeAttendances = attendanceDAO.GetAllEmployeesWithAttendance(date);
+            DataGridAttendance.ItemsSource = employeeAttendances;
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            //AdminView.Home home = new AdminView.Home();
-            //home.Show();
+            ManagementWindow managementWindow = new ManagementWindow();
+            managementWindow.Show();
             this.Close();
         }
 
@@ -62,9 +63,9 @@ namespace WPFApp
 
         private void SalaryDetailButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DateOnly date = DateOnly.Parse(AttendanceIn.Text);
             int employeeId = ((EmployeeAttendance)DataGridAttendance.SelectedItem).EmployeeId;
-            SalaryDetail salaryDetail = new SalaryDetail(employeeId);
+            SalaryDetail salaryDetail = new SalaryDetail(employeeId, date,"attendance_list");
             salaryDetail.Show();
             this.Close();
 

@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace WPFApp
@@ -23,60 +24,57 @@ namespace WPFApp
     public partial class SalaryDetail : Window
     {
         private int _employeeId;
-        public SalaryDetail(int employeeId)
+        private DateOnly _dateOnly;
+        private string _state;
+        public SalaryDetail(int employeeId, DateOnly date, string state)
         {
             InitializeComponent();
             _employeeId = employeeId;
+            _dateOnly = date;
+            _state = state;
             LoadData();
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            AttendanceList attendanceList = new AttendanceList();
-            attendanceList.Show();
-            this.Close();
+            if(_state == "attendance_list")
+            {
+                AttendanceList attendanceList = new AttendanceList();
+                attendanceList.Show();
+                this.Close();
+            }
+            else
+            {
+                SalaryList salaryList = new SalaryList();
+                salaryList.Show();
+                this.Close();
+            }
         }
 
         private void DataGridSalaryModification_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DataGridSalaryModification.SelectedItem != null)
-            {
-                SalaryModification salaryModification = (SalaryModification)DataGridSalaryModification.SelectedItem;
-                int employeeId = salaryModification.EmployeeId;
-                ReportDate.Text = salaryModification.Date.ToString();
-                String amount = salaryModification.Amount.ToString().TrimEnd();
-                string datbase_status = salaryModification.Status;
-                if (datbase_status.Equals("bonus"))
-                {
-                    Amount.Text = "Bonus" + " " + amount + "$";
-                }
-                else
-                {
-                    Amount.Text = "Deduct" + " " + amount + "$";
-                }
-                ReportDescription.Text = salaryModification.Description;
-            }
+            
         }
 
         private void LoadData()
         {
             EmployeesDAO employeeDAO = new EmployeesDAO();
             SalariesDAO salaryDAO = new SalariesDAO();
-            List<SalaryModification> salaries = salaryDAO.GetSalaryModificationsOfAnEmployee(_employeeId);
+            List<SalaryModification> salaries = salaryDAO.GetSalaryModificationsOfAnEmployee(_employeeId, _dateOnly);
             DataGridSalaryModification.ItemsSource = salaries;
             String report = "Employee ID: " + _employeeId + "\n" +
                 "Employee Name: " + employeeDAO.GetNameById(_employeeId) + "\n" +
-                "Salary Detail Of: " + DateOnly.FromDateTime(DateTime.Now).ToString("MM/yyyy") + "\n\n"
+                "Salary Detail Of: " + _dateOnly.ToString("MM/yyyy") + "\n\n"
                 ;
             for (int i = 0; i < salaries.Count; i++)
             {
-                if (salaries[i].Status.Equals("bonus"))
+                if (salaries[i].Status.Trim()=="bonus")
                 {
                     report += salaries[i].Date + " " + "Bonus" + "  " + salaries[i].Amount + "\n"
                         + "------------------------\n";
                 }
                 else
                 {
-                    report += salaries[i].Date + " " + "Deduct" + " " + salaries[i].Amount + "\n"
+                    report += salaries[i].Date + " " + "Deduct" + "  " + salaries[i].Amount + "\n"
                         + "------------------------\n";
                 }
             }
@@ -95,7 +93,7 @@ namespace WPFApp
 
             SalariesDAO salaryDAO = new SalariesDAO();
             EmployeesDAO employeeDAO = new EmployeesDAO();
-            List<SalaryModification> salaries = salaryDAO.GetSalaryModificationsOfAnEmployee(_employeeId);
+            List<SalaryModification> salaries = salaryDAO.GetSalaryModificationsOfAnEmployee(_employeeId,_dateOnly);
             DataGridSalaryModification.ItemsSource = salaries;
             String report = "Employee ID: " + _employeeId + "\n" +
                "Employee Name: " + employeeDAO.GetNameById(_employeeId) + "\n" +

@@ -9,54 +9,75 @@ namespace WPFApp
     public partial class CustomerWindow : Window
     {
         private PRN_EmployeeManagementContext _context;
+        private int employeeId;
 
         public CustomerWindow(int employeeId)
         {
             InitializeComponent();
             _context = new PRN_EmployeeManagementContext();
-            LoadEmployees();
+            this.employeeId = employeeId;
         }
 
-        private void LoadEmployees()
-        {
-            dgEmployees.ItemsSource = _context.Employees.ToList();
-        }
+       
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void CheckInButtonClick(object sender, RoutedEventArgs e)
         {
-            var employee = new Employees
+            AttendanceDAO attendanceDAO = new AttendanceDAO();
+            bool checkin = attendanceDAO.CheckInNotInTime(employeeId);
+            if (checkin)
             {
-                FullName = txtFullName.Text,
-                BirthDate = dpBirthDate.SelectedDate.Value
-                // Initialize other properties as needed
-            };
+                System.Windows.MessageBox.Show("Check in successfully");
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Check in failed");
+            }
 
-            _context.Employees.Add(employee);
-            _context.SaveChanges();
-            LoadEmployees();
         }
 
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private void CheckOutButtonClick(object sender, RoutedEventArgs e)
         {
-            if (dgEmployees.SelectedItem is Employees selectedEmployee)
+            AttendanceDAO attendanceDAO = new AttendanceDAO();
+            bool checkout = attendanceDAO.CheckOutNotInTime(employeeId);
+            if (checkout)
             {
-                selectedEmployee.FullName = txtFullName.Text;
-                selectedEmployee.BirthDate = dpBirthDate.SelectedDate.Value;
-                // Update other properties as needed
-
-                _context.SaveChanges();
-                LoadEmployees();
+                System.Windows.MessageBox.Show("Check out successfully");
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Check out failed");
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void SalaryButtonClick(object sender, RoutedEventArgs e)
         {
-            if (dgEmployees.SelectedItem is Employees selectedEmployee)
-            {
-                _context.Employees.Remove(selectedEmployee);
-                _context.SaveChanges();
-                LoadEmployees();
-            }
+            CustomerSalaryDetail customerSalaryDetailWindow = new CustomerSalaryDetail(employeeId);
+            customerSalaryDetailWindow.Show();
+            this.Close();
+        }
+
+        private void Notification_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeNotificationList employeeNotificationListWindow = new EmployeeNotificationList(employeeId);
+            employeeNotificationListWindow.Show();
+            this.Close();
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeAttendanceRequest employeeAttendanceRequestWindow = new EmployeeAttendanceRequest(employeeId);
+            employeeAttendanceRequestWindow.Show();
+            this.Close();
+        }
+
+        private void Attendance_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeAttendanceRequest employeeAttendanceRequestWindow = new EmployeeAttendanceRequest(employeeId);
+            employeeAttendanceRequestWindow.Show();
+            this.Close();
         }
     }
 }

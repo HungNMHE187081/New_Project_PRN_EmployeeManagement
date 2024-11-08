@@ -9,65 +9,72 @@
     <DockPanel>
 
         <!-- Top section with a header using DockPanel -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="LightBlue">
-            <TextBlock Text="Employee Management " FontSize="24" FontWeight="Bold" 
-    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <DockPanel DockPanel.Dock="Top" Height="50" Background="#2C3E50">
+            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
         </DockPanel>
 
         <!-- Left navigation menu using StackPanel and DockPanel -->
-        <StackPanel DockPanel.Dock="Left" Width="150" Background="LightGray">
-            <TextBlock Text="Salaries" FontSize="18" FontWeight="Bold" Margin="10"/>
-            <Button Content="Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
+        <StackPanel DockPanel.Dock="Left" Width="150" Background="#34495E">
+            <TextBlock Text="Salaries" FontSize="18" FontWeight="Bold" Margin="10" Foreground="White"/>
+            <Button Content="Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click" 
+                    Background="#1ABC9C" Foreground="White" FontWeight="Bold"/>
         </StackPanel>
-        <Canvas Width="646">
-            <DataGrid x:Name="DataGridSalary" AutoGenerateColumns="False" Height="230" Width="562" Canvas.Left="12" Canvas.Top="12" HorizontalAlignment="Center" VerticalAlignment="Top" CanUserAddRows="False" SelectionChanged="DataGridSalary_SelectionChanged" >
+
+        <!-- Main content area using Grid -->
+        <Grid Background="#ECF0F1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- DataGrid for displaying salaries -->
+            <DataGrid x:Name="DataGridSalary" AutoGenerateColumns="False" CanUserAddRows="False" 
+                      SelectionChanged="DataGridSalary_SelectionChanged" Margin="10" Background="White" 
+                      AlternatingRowBackground="#F2F3F4" GridLinesVisibility="None" Height="250">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="100"/>
-                    <DataGridTextColumn Header="Employeee Name" Binding="{Binding Employees.FullName }" Width="110"/>
-                    <DataGridTextColumn Header="Base Salary" Binding="{Binding Allowance }" Width="140" SortMemberPath="Num"/>
-
-
-
-                    <!-- Cột chứa nút Delete -->
-                    <DataGridTemplateColumn Header="PaymentDate" Width="120">
+                    <DataGridTextColumn Header="Employee Name" Binding="{Binding Employees.FullName}" Width="150"/>
+                    <DataGridTextColumn Header="Base Salary" Binding="{Binding Allowance}" Width="140"/>
+                    <DataGridTemplateColumn Header="Payment Date" Width="120">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding PaymentDate, StringFormat={}{0:dd-MM-yyyy}}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="" Width="75">
+                    <DataGridTemplateColumn Header="Actions" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Salary Detail" Click="SalaryDetailButton_Click" Tag="{Binding EmployeeID}"/>
+                                <Button Content="Salary Detail" Click="SalaryDetailButton_Click" Tag="{Binding EmployeeID}" 
+                                        Background="#3498DB" Foreground="White"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Canvas Height="127" Width="646" HorizontalAlignment="Center" Canvas.Top="247" VerticalAlignment="Top">
-                <TextBlock x:Name="EmployeeName" Canvas.Left="10" TextWrapping="Wrap" Text="Employee Name:" Canvas.Top="6" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock Canvas.Left="11" TextWrapping="Wrap" Text="Base Salary: " Canvas.Top="32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBox x:Name="BaseSalary" Canvas.Left="91" TextWrapping="Wrap" Canvas.Top="30" Width="120" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock Canvas.Left="11" TextWrapping="Wrap" Text="Payment Date: " Canvas.Top="57" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <DatePicker x:Name="PaymentDate" Canvas.Left="94" Canvas.Top="54" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Button x:Name="Update" Content="Update" Canvas.Left="14" Canvas.Top="92" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="81" Click="Update_Click"/>
-            </Canvas>
-        </Canvas>
 
-        <!-- Main content area using Grid -->
-        <Grid Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- WrapPanel to dynamically wrap buttons -->
-
+            <!-- Form for updating salary details -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Employee Name:"/>
+                    <TextBlock x:Name="EmployeeName"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Base Salary:"/>
+                    <TextBox x:Name="BaseSalary" Width="120" Height="23"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="Payment Date:"/>
+                    <DatePicker x:Name="PaymentDate"/>
+                </StackPanel>
+                <Button x:Name="Update" Content="Update" Width="100" Height="30" Margin="10" Click="Update_Click" 
+                        Background="#E74C3C" Foreground="White"/>
+            </StackPanel>
         </Grid>
     </DockPanel>
 </Window>

@@ -122,6 +122,11 @@
                             Style="{StaticResource ActionButton}"
                             Background="#28A745"
                             Click="RefreshEmployee_Click"/>
+                    <Button x:Name="Back" 
+                        Content="Back To Home"
+                        Style="{StaticResource ActionButton}"
+                        Background="#28A745"
+                        Click="Back_Click"/>
                 </StackPanel>
             </Border>
 
@@ -192,11 +197,9 @@
                          IsReadOnly="True"
                          AlternationCount="2147483647">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="#" 
+                        <DataGridTextColumn Header="ID" 
                                           Width="50"
-                                          Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
-                                          AncestorType={x:Type DataGridRow}}, 
-                                          Path=(ItemsControl.AlternationIndex)}"/>
+                                          Binding="{Binding EmployeeID}"/>
                         <DataGridTextColumn Header="Full Name" 
                                           Binding="{Binding FullName}" 
                                           Width="*"/>

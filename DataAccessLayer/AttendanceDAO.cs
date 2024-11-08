@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,20 +38,20 @@ namespace DataAccessLayer
             {
                 var result = context.Employees
                     .GroupJoin(
-                        context.Attendance,
+                        context.Attendance.Where(o => o.Date==date),
                         employee => employee.EmployeeID,
                         attendance => attendance.EmployeeID,
-                        (employee, attendances) => new { employee, attendances }
+                        (employee, attendance) => new { employee, attendance }
                     )
                     .SelectMany(
-                        x => x.attendances.DefaultIfEmpty(),
+                        x => x.attendance.DefaultIfEmpty(),
                         (x, attendance) => new EmployeeAttendance
                         {
                             EmployeeId = x.employee.EmployeeID,
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : date,
+                            Date = DateOnly.FromDateTime(DateTime.Now),
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     )
@@ -142,7 +143,7 @@ namespace DataAccessLayer
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : date,
+                            Date = date,
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     ).Where(a => a.Status == "Absent" && a.Date == date)
@@ -152,34 +153,6 @@ namespace DataAccessLayer
             }
         }
 
-        public List<EmployeeAttendance> GetEmployeeWithAttendanceInAday(DateOnly day)
-        {
-            using (var context = new PRN_EmployeeManagementContext())
-            {
-                var result = context.Employees
-                    .GroupJoin(
-                        context.Attendance,
-                        employee => employee.EmployeeID,
-                        attendance => attendance.EmployeeID,
-                        (employee, attendances) => new { employee, attendances }
-                    )
-                    .SelectMany(
-                        x => x.attendances.DefaultIfEmpty(),
-                        (x, attendance) => new EmployeeAttendance
-                        {
-                            EmployeeId = x.employee.EmployeeID,
-                            EmployeeName = x.employee.FullName,
-                            CheckIn = attendance != null ? attendance.CheckIn : null,
-                            CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : day,
-                            Status = attendance != null ? attendance.Status : "Absent"
-                        }
-                    ).Where(DateOnly => DateOnly.Date == day)
-                    .ToList();
-
-                return result;
-            }
-        }
 
         public List<EmployeeAttendance> GetEmployeeAttendancesInADay(DateOnly day)
         {
@@ -187,7 +160,7 @@ namespace DataAccessLayer
             {
                 var result = context.Employees
                     .GroupJoin(
-                        context.Attendance,
+                        context.Attendance.Where(a => a.Date == day),
                         employee => employee.EmployeeID,
                         attendance => attendance.EmployeeID,
                         (employee, attendances) => new { employee, attendances }
@@ -200,11 +173,11 @@ namespace DataAccessLayer
                             EmployeeName = x.employee.FullName,
                             CheckIn = attendance != null ? attendance.CheckIn : null,
                             CheckOut = attendance != null ? attendance.CheckOut : null,
-                            Date = attendance != null ? attendance.Date : day,
+                            Date = DateOnly.FromDateTime(DateTime.Now),
                             Status = attendance != null ? attendance.Status : "Absent"
                         }
                     )
-                    .Where(a => a.Date == day)
+                    
                     .ToList();
 
                 return result;
@@ -236,17 +209,18 @@ namespace DataAccessLayer
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
+                CheckOut(employeeId);
                 SalaryModification salaryModification = new SalaryModification();
                 TimeOnly checkout = new TimeOnly(17, 0);
-                if (TimeOnly.FromDateTime(DateTime.Now).Hour > 17)
+                if (TimeOnly.FromDateTime(DateTime.Now).Hour < 17)
                 {
-                    int differences = (int)(TimeOnly.FromDateTime(DateTime.Now) - checkout).TotalMinutes;
+                    int differences = (int)(checkout - TimeOnly.FromDateTime(DateTime.Now)).TotalMinutes;
                     String late = differences.ToString();
                     salaryModification.EmployeeId = employeeId;
                     salaryModification.Date = DateOnly.FromDateTime(DateTime.Now);
                     salaryModification.Amount = double.Parse(late);
                     salaryModification.Status = "deduction";
-                    salaryModification.Description = "CheckOut soon " + late + " minutes";
+                    salaryModification.Description = "Checkout soon " + late + " minutes";
                     context.SalaryModifications.Add(salaryModification);
                     int check = context.SaveChanges();
                     if (check > 0)
@@ -255,15 +229,15 @@ namespace DataAccessLayer
                     }
                 }
 
-                if (TimeOnly.FromDateTime(DateTime.Now).Hour < 17)
+                if (TimeOnly.FromDateTime(DateTime.Now).Hour > 17)
                 {
-                    int differences = (int)(checkout - TimeOnly.FromDateTime(DateTime.Now)).TotalMinutes;
+                    int differences = (int)(TimeOnly.FromDateTime(DateTime.Now)-checkout).TotalMinutes;
                     String late = differences.ToString();
                     salaryModification.EmployeeId = employeeId;
                     salaryModification.Date = DateOnly.FromDateTime(DateTime.Now);
                     salaryModification.Amount = double.Parse(late);
                     salaryModification.Status = "bonus";
-                    salaryModification.Description = "CheckOut late " + late + " minutes";
+                    salaryModification.Description = "Checkout late " + late + " minutes";
                     context.SalaryModifications.Add(salaryModification);
                     int check = context.SaveChanges();
                     if (check > 0)
@@ -280,6 +254,7 @@ namespace DataAccessLayer
         {
             using (var context = new PRN_EmployeeManagementContext())
             {
+                CheckIn(employeeId);
                 SalaryModification salaryModification = new SalaryModification();
                 TimeOnly checkin = new TimeOnly(8, 0);
                 if (TimeOnly.FromDateTime(DateTime.Now).Hour > 8)
@@ -290,7 +265,7 @@ namespace DataAccessLayer
                     salaryModification.Date = DateOnly.FromDateTime(DateTime.Now);
                     salaryModification.Amount = double.Parse(late);
                     salaryModification.Status = "deduction";
-                    salaryModification.Description = "CheckIn late " + late + " minutes";
+                    salaryModification.Description = "Checkin late " + late + " minutes";
                     context.SalaryModifications.Add(salaryModification);
                     int check = context.SaveChanges();
                     if (check > 0)
@@ -307,13 +282,47 @@ namespace DataAccessLayer
                     salaryModification.Date = DateOnly.FromDateTime(DateTime.Now);
                     salaryModification.Amount = double.Parse(late);
                     salaryModification.Status = "bonus";
-                    salaryModification.Description = "CheckIn soon " + late + " minutes";
+                    salaryModification.Description = "Checkin soon " + late + " minutes";
                     context.SalaryModifications.Add(salaryModification);
                     int check = context.SaveChanges();
                     if (check > 0)
                     {
                         return true;
                     }
+                }
+                return false;
+            }          
+        }
+
+        public List<DateOnly> GetAllAbsenceOfAnEmployee(int employeeId)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                var result = context.Attendance
+                    .Where(a => a.EmployeeID == employeeId && a.Status == "Absent")
+                    .Select(a => a.Date)
+                    .ToList();
+
+                return result;
+            }
+        }
+
+        public bool AddPermissionAttendance(int employeeId, DateOnly date)
+        {
+            using (var context = new PRN_EmployeeManagementContext())
+            {
+                var attendance = new Attendances
+                {
+                    EmployeeID = employeeId,
+                    Date = date,
+                    Status = "Permission"
+                };
+
+                context.Attendance.Add(attendance);
+                int check = context.SaveChanges();
+                if (check > 0)
+                {
+                    return true;
                 }
                 return false;
             }

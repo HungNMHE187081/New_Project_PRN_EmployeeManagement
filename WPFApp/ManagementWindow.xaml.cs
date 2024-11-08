@@ -5,24 +5,34 @@ using Services; // Đảm bảo đã thêm namespace cho service
 using System.Collections.Generic;
 using BusinessObjects.Models;
 using DataAccessLayer;
+using LiveCharts;
 
 namespace WPFApp
 {
 
     public partial class ManagementWindow : Window
     {
-        private PRN_EmployeeManagementContext _context;
-
+        
         public ManagementWindow()
         {
             InitializeComponent();
-            _context = new PRN_EmployeeManagementContext();
-
+            DepartmentsDAO departmentsDAO = new DepartmentsDAO();
+            DataContext = this;
+            List<int> number_of_employeeinadepartments = departmentsDAO.GetNumberOfEmployeesInEachDepartment();
+            List<double> avg_salries = departmentsDAO.GetSalaryOfEachDepartment();
+            EmployeeValues = new ChartValues<int> ( number_of_employeeinadepartments );
+            SalaryValues = new ChartValues<double> (avg_salries);
+            AbsenceRateValues = new ChartValues<double> { 5, 3, 4, 2 };
+            DepartmentLabels = new List<string> { "HR", "IT", "Finance", "Marketing" };
         }
+        public ChartValues<int> EmployeeValues { get; set; }
+        public ChartValues<double> SalaryValues { get; set; }
+        public ChartValues<double> AbsenceRateValues { get; set; }
+        public List<string> DepartmentLabels { get; set; }
         private void ManageUsersAccount_Click(object sender, RoutedEventArgs e)
         {
-            UserAccountManagement userAccountManagementWindow = new UserAccountManagement();
-            userAccountManagementWindow.Show();
+            ManagementWindow managementWindow = new ManagementWindow();
+            managementWindow.Show();
             this.Close();
         }
 
@@ -59,6 +69,25 @@ namespace WPFApp
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
+        }
+
+        private void Notification_Click(object sender, RoutedEventArgs e)
+        {
+            AdminNotificationList adminNotificationListWindow = new AdminNotificationList();
+            adminNotificationListWindow.Show();
+            this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           ReportWindow reportWindow = new ReportWindow();
+            reportWindow.Show();
+            this.Close();
+        }
+
+        private void CartesianChart_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

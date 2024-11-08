@@ -25,7 +25,6 @@ namespace WPFApp
         }
         private void btnGeneral_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             ReportWindow reportWindow = new ReportWindow();
             reportWindow.Show();
             this.Close();
@@ -33,10 +32,9 @@ namespace WPFApp
 
         private void btnPersonal_Click(object sender, RoutedEventArgs e)
         {
-            //this.Hide();
-            //PersonalReport personalReport = new PersonalReport();
-            //personalReport.Show();
-            //this.Close();
+            PersonalReport personalReport = new PersonalReport();
+            personalReport.Show();
+            this.Close();
         }
     }
 }
