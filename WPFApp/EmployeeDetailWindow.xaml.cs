@@ -43,6 +43,9 @@ namespace WPFApp
 
         private void LoadInitialData()
         {
+            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "Male" });
+            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "Female" });
+
             LoadDepartments();
             LoadUnassignedUsers();
 
