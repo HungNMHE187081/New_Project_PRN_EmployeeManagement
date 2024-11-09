@@ -3,78 +3,146 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="SalaryList" Height="450" Width="800">
-    <DockPanel>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Salary List" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Top section with a header using DockPanel -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="#2C3E50">
-            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
-                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-        </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Left navigation menu using StackPanel and DockPanel -->
-        <StackPanel DockPanel.Dock="Left" Width="150" Background="#34495E">
-            <TextBlock Text="Salaries" FontSize="18" FontWeight="Bold" Margin="10" Foreground="White"/>
-            <Button Content="Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click" 
-                    Background="#1ABC9C" Foreground="White" FontWeight="Bold"/>
-        </StackPanel>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Salary Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-        <!-- Main content area using Grid -->
-        <Grid Background="#ECF0F1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- DataGrid for displaying salaries -->
-            <DataGrid x:Name="DataGridSalary" AutoGenerateColumns="False" CanUserAddRows="False" 
-                      SelectionChanged="DataGridSalary_SelectionChanged" Margin="10" Background="White" 
-                      AlternatingRowBackground="#F2F3F4" GridLinesVisibility="None" Height="250">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeID}" Width="100"/>
-                    <DataGridTextColumn Header="Employee Name" Binding="{Binding Employees.FullName}" Width="150"/>
-                    <DataGridTextColumn Header="Base Salary" Binding="{Binding Allowance}" Width="140"/>
-                    <DataGridTemplateColumn Header="Payment Date" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PaymentDate, StringFormat={}{0:dd-MM-yyyy}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Actions" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Salary Detail" Click="SalaryDetailButton_Click" Tag="{Binding EmployeeID}" 
-                                        Background="#3498DB" Foreground="White"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <!-- Form for updating salary details -->
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock Text="Employee Name:"/>
-                    <TextBlock x:Name="EmployeeName"/>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🏠 Back To Home"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="BackButton_Click"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock Text="Base Salary:"/>
-                    <TextBox x:Name="BaseSalary" Width="120" Height="23"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="10">
-                    <TextBlock Text="Payment Date:"/>
-                    <DatePicker x:Name="PaymentDate"/>
-                </StackPanel>
-                <Button x:Name="Update" Content="Update" Width="100" Height="30" Margin="10" Click="Update_Click" 
-                        Background="#E74C3C" Foreground="White"/>
-            </StackPanel>
-        </Grid>
-    </DockPanel>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- DataGrid -->
+                <DataGrid x:Name="DataGridSalary" 
+                         Grid.Row="0"
+                         Style="{StaticResource MaterialDesignDataGrid}"
+                         AutoGenerateColumns="False"
+                         CanUserAddRows="False"
+                         Margin="0,0,0,16"
+                         SelectionChanged="DataGridSalary_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Employee ID" 
+                                          Binding="{Binding EmployeeID}" 
+                                          Width="100"/>
+                        <DataGridTextColumn Header="Employee Name" 
+                                          Binding="{Binding Employees.FullName}" 
+                                          Width="*"/>
+                        <DataGridTextColumn Header="Base Salary" 
+                                          Binding="{Binding Allowance}" 
+                                          Width="150"/>
+                        <DataGridTemplateColumn Header="Payment Date" Width="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PaymentDate, StringFormat={}{0:dd-MM-yyyy}}"
+                                             VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Actions" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                            Content="💰 Detail"
+                                            Height="30"
+                                            Margin="4"
+                                            BorderBrush="#2196F3"
+                                            Foreground="#2196F3"
+                                            materialDesign:ButtonAssist.CornerRadius="4"
+                                            Click="SalaryDetailButton_Click" 
+                                            Tag="{Binding EmployeeID}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Update Form -->
+                <materialDesign:Card Grid.Row="1" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="8,0">
+                            <TextBlock Text="Employee Name"
+                                     Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                     Margin="0,0,0,8"/>
+                            <TextBlock x:Name="EmployeeName"
+                                     Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="8,0">
+                            <TextBox x:Name="BaseSalary"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Height="45"
+                                   materialDesign:HintAssist.Hint="Base Salary"
+                                   materialDesign:TextFieldAssist.HasClearButton="True"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="8,0">
+                            <DatePicker x:Name="PaymentDate"
+                                      Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                      Height="45"
+                                      materialDesign:HintAssist.Hint="Payment Date"/>
+                        </StackPanel>
+
+                        <Button Grid.Column="3"
+                                x:Name="Update"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Content="Update"
+                                Height="45"
+                                Width="120"
+                                Margin="8,0,0,0"
+                                Background="#2196F3"
+                                Foreground="White"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                Click="Update_Click"/>
+                    </Grid>
+                </materialDesign:Card>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

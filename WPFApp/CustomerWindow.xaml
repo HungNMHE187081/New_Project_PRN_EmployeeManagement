@@ -1,52 +1,133 @@
 ﻿<Window x:Class="WPFApp.CustomerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Employee Management" Height="450" Width="800">
-    <DockPanel>
-        <!-- Top Header with Centered Title -->
-        <DockPanel DockPanel.Dock="Top" Height="70" Background="#2C3E50">
-            <TextBlock Text="Employee Management" FontSize="28" FontWeight="Bold" 
-                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-        </DockPanel>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Employee Management" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Left Navigation Panel with Buttons and Icons -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
-            <TextBlock Text="Menu" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
-            <Button x:Name="SalaryButton" Content="💰 Salary" Margin="10,5" Height="45" Width="180" Click="SalaryButtonClick" 
-                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium"/>
-            <Button x:Name="Notification" Content="🔔 Notification" Margin="10,5" Height="45" Width="180" 
-                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium" Click="Notification_Click"/>
-            <Button x:Name="Attendance" Content="📴 Attendance" Margin="10,5" Height="45" Width="180"  
-                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium" Click="Attendance_Click"/>
-            <Button x:Name="Checkin" Content="🕒 Checkin" Margin="10,5" Height="45" Width="180" Click="CheckInButtonClick" 
-                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium"/>
-            <Button x:Name="Checkout" Content="🔚 Checkout" Margin="10,5" Height="45" Width="180" Click="CheckOutButtonClick" 
-                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Main Content Area with a Placeholder Section -->
-        <Grid x:Name="MainContentGrid" Margin="10">
-            <!-- Default Content -->
-            <TextBlock x:Name="DefaultContent" Text="Please select an option from the menu on the left."
-                   FontSize="16" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Employee Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-            <!-- Department Management Section -->
-            <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
-                <TextBlock Text="Department Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridDepartments" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button x:Name="SalaryButton"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="💰 Salary"
+                            Height="45"
+                            Margin="0,4"
+                            Foreground="#2196F3"
+                            HorizontalContentAlignment="Left"
+                            Click="SalaryButtonClick"/>
 
-            <!-- Attendance Management Section -->
-            <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
-                <TextBlock Text="Attendance Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+                    <Button x:Name="Notification"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="🔔 Notification"
+                            Height="45"
+                            Margin="0,4"
+                            Foreground="#2196F3"
+                            HorizontalContentAlignment="Left"
+                            Click="Notification_Click"/>
 
-            <!-- Salary Management Section -->
-            <StackPanel x:Name="SalarySection" Visibility="Collapsed">
-                <TextBlock Text="Salary Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridSalaries" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-        </Grid>
-    </DockPanel>
+                    <Button x:Name="Attendance"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="📴 Attendance"
+                            Height="45"
+                            Margin="0,4"
+                            Foreground="#2196F3"
+                            HorizontalContentAlignment="Left"
+                            Click="Attendance_Click"/>
+
+                    <Button x:Name="Checkin"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="🕒 Checkin"
+                            Height="45"
+                            Margin="0,4"
+                            Foreground="#2196F3"
+                            HorizontalContentAlignment="Left"
+                            Click="CheckInButtonClick"/>
+
+                    <Button x:Name="Checkout"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="🔚 Checkout"
+                            Height="45"
+                            Margin="0,4"
+                            Foreground="#2196F3"
+                            HorizontalContentAlignment="Left"
+                            Click="CheckOutButtonClick"/>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid x:Name="MainContentGrid" Margin="16">
+                <!-- Default Content -->
+                <TextBlock x:Name="DefaultContent" 
+                         Text="Please select an option from the menu on the left."
+                         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                         Foreground="#757575"
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center"/>
+
+                <!-- Department Management Section -->
+                <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
+                    <TextBlock Text="Department Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="#2196F3"
+                             Margin="0,0,0,16"/>
+                    <DataGrid x:Name="DataGridDepartments" 
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="True"
+                             IsReadOnly="True"
+                             Margin="0,8"/>
+                </StackPanel>
+
+                <!-- Attendance Management Section -->
+                <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
+                    <TextBlock Text="Attendance Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="#2196F3"
+                             Margin="0,0,0,16"/>
+                    <DataGrid x:Name="DataGridAttendance" 
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="True"
+                             IsReadOnly="True"
+                             Margin="0,8"/>
+                </StackPanel>
+
+                <!-- Salary Management Section -->
+                <StackPanel x:Name="SalarySection" Visibility="Collapsed">
+                    <TextBlock Text="Salary Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="#2196F3"
+                             Margin="0,0,0,16"/>
+                    <DataGrid x:Name="DataGridSalaries" 
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="True"
+                             IsReadOnly="True"
+                             Margin="0,8"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

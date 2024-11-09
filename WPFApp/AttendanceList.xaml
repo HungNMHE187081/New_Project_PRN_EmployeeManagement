@@ -3,89 +3,176 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="Attendance List" Height="450" Width="800">
-    <DockPanel>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Attendance List" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Top section with a header using DockPanel -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="#2C3E50">
-            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
-                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Left navigation menu using StackPanel and DockPanel -->
-        <StackPanel DockPanel.Dock="Left" Width="150" Background="#34495E">
-            <TextBlock Text="Attendance" FontSize="18" FontWeight="Bold" Margin="10" Foreground="White"/>
-            <Button Content="🏠 Back To Home" Margin="5" Height="40" Width="137" Click="BackButton_Click" 
-                    Background="Red" Foreground="White" BorderBrush="#16A085"/>
-        </StackPanel>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Attendance" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-        <!-- Main content area using Canvas -->
-        <Canvas x:Name="CheckinLate" Width="646" Background="#ECF0F1">
-            <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="False" Height="280"  Canvas.Top="57" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                      CanUserAddRows="False" Background="White" BorderBrush="#BDC3C7">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="30"/>
-                    <DataGridTextColumn Header="Employee Name" Binding="{Binding EmployeeName}" Width="130"/>
-                    <DataGridTemplateColumn Header="CheckIn" Width="80">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CheckIn, StringFormat={}{0:HH:mm:ss}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="CheckOut" Width="80">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CheckOut, StringFormat={}{0:HH:mm:ss}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="75"/>
-                    <DataGridTemplateColumn Header="" Width="100">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="💰 Salary Detail" Click="SalaryDetailButton_Click" Tag="{Binding EmployeeId}" 
-                                        Background="#3498DB" Foreground="White" BorderBrush="#2980B9" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Button x:Name="CheckInLate" Content="⏰ Checkin Late" Canvas.Left="525" Canvas.Top="134" 
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="113" 
-                    Click="CheckinLateButton_Click" Background="#3498DB" Foreground="White" BorderBrush="#2980B9"/>
-            <Button x:Name="CheckOutSoon" Content="🏃‍♂️ Checkout Soon" Canvas.Left="525" Canvas.Top="182" 
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="113" 
-                    Click="CheckOutSoon_Click" Background="#3498DB" Foreground="White" BorderBrush="#2980B9"/>
-            <Button x:Name="CheckOutLate" Content="🕒 Checkout Late" Canvas.Left="525" Canvas.Top="235" 
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="113" 
-                    Click="CheckOutLate_Click" Background="#3498DB" Foreground="White" BorderBrush="#2980B9"/>
-            <Button x:Name="Absent" Content="🚫 Absent" Canvas.Left="525" Canvas.Top="285" 
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="113"  
-                    Click="Absent_Click" Background="#3498DB" Foreground="White" BorderBrush="#2980B9"/>
-            <TextBlock Canvas.Left="12" TextWrapping="Wrap" Text="All Attendance In " Canvas.Top="18" 
-                       HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#2C3E50"/>
-            <Button x:Name="All" Content="📅 All" Canvas.Left="526" Canvas.Top="87" 
-                    HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Width="113" 
-                    Click="All_Click" Background="#1ABC9C" Foreground="White" BorderBrush="#16A085"/>
-            <DatePicker x:Name="AttendanceIn" Canvas.Left="121" Canvas.Top="14" 
-                        HorizontalAlignment="Left" VerticalAlignment="Center" SelectedDateChanged="AttendanceChange"/>
-            <TextBlock Canvas.Left="578" TextWrapping="Wrap" Text="Filter" Canvas.Top="52" 
-                       HorizontalAlignment="Left" VerticalAlignment="Center" Height="21" Width="85" Foreground="#2C3E50"/>
-        </Canvas>
+                <!-- Navigation Button -->
+                <StackPanel Margin="16">
+                    <Button Content="🏠 Back To Home" 
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Height="45"
+                            Margin="0,8"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="BackButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
 
-        <!-- Main content area using Grid -->
-        <Grid Background="White">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
-    </DockPanel>
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Date Picker Section -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                    <TextBlock Text="All Attendance In:" 
+                             Style="{StaticResource MaterialDesignBody1TextBlock}"
+                             VerticalAlignment="Center"
+                             Margin="0,0,16,0"/>
+                    <DatePicker x:Name="AttendanceIn"
+                              Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                              Width="200"
+                              SelectedDateChanged="AttendanceChange"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- DataGrid -->
+                    <DataGrid x:Name="DataGridAttendance" 
+                             Grid.Column="0"
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="False"
+                             CanUserAddRows="False"
+                             Margin="0,0,16,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding EmployeeId}" Width="60"/>
+                            <DataGridTextColumn Header="Employee Name" Binding="{Binding EmployeeName}" Width="*"/>
+                            <DataGridTemplateColumn Header="CheckIn" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CheckIn, StringFormat={}{0:HH:mm:ss}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="CheckOut" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CheckOut, StringFormat={}{0:HH:mm:ss}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"/>
+                            <DataGridTemplateColumn Header="Actions" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="💰 Salary Detail"
+                                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                                Height="30"
+                                                Margin="4"
+                                                BorderBrush="#2196F3"
+                                                Foreground="#2196F3"
+                                                materialDesign:ButtonAssist.CornerRadius="4"
+                                                Click="SalaryDetailButton_Click" 
+                                                Tag="{Binding EmployeeId}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Filter Buttons -->
+                    <StackPanel Grid.Column="1" Width="150">
+                        <TextBlock Text="Filter" 
+                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                 Foreground="#2196F3"
+                                 HorizontalAlignment="Center"
+                                 Margin="0,0,0,16"/>
+
+                        <Button x:Name="All"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Content="📅 All"
+                                Height="40"
+                                Margin="0,4"
+                                Background="#2196F3"
+                                Foreground="White"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                Click="All_Click"/>
+
+                        <Button x:Name="CheckInLate"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Content="⏰ Checkin Late"
+                                Height="40"
+                                Margin="0,4"
+                                BorderBrush="#2196F3"
+                                Foreground="#2196F3"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                Click="CheckinLateButton_Click"/>
+
+                        <Button x:Name="CheckOutSoon"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Content="🏃‍♂️ Checkout Soon"
+                                Height="40"
+                                Margin="0,4"
+                                BorderBrush="#2196F3"
+                                Foreground="#2196F3"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                Click="CheckOutSoon_Click"/>
+
+                        <Button x:Name="CheckOutLate"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Content="🕒 Checkout Late"
+                                Height="40"
+                                Margin="0,4"
+                                BorderBrush="#2196F3"
+                                Foreground="#2196F3"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                Click="CheckOutLate_Click"/>
+
+                        <Button x:Name="Absent"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                Content="🚫 Absent"
+                                Height="40"
+                                Margin="0,4"
+                                BorderBrush="#2196F3"
+                                Foreground="#2196F3"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                Click="Absent_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

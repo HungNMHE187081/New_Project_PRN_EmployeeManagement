@@ -3,44 +3,64 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="Login - Hotel Management System" Height="450" Width="800">
-    <Window.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="0,0,0,5"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="PasswordBox">
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="#007ACC"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#007ACC"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
-        </Style>
-    </Window.Resources>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Login - Hotel Management System" 
+        Height="500" 
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
+
     <Grid>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Hotel Management System" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
-            <TextBlock Text="Username"/>
-            <TextBox x:Name="txtUserName"/>
-            <TextBlock Text="Password"/>
-            <PasswordBox x:Name="txtPassWord"/>
-            <Button Content="Login" Click="LoginButton_Click"/>
-        </StackPanel>
+        <materialDesign:Card Margin="32" 
+                           Background="White"
+                           Padding="32">
+            <StackPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        Padding="16"
+                                        Margin="0,0,0,32"
+                                        CornerRadius="4"
+                                        Background="#2196F3">
+                    <TextBlock Text="Employee Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             HorizontalAlignment="Center"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
+
+                <!-- Login Form -->
+                <TextBox x:Name="txtUserName"
+                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                        Height="56"
+                        Margin="0,8,0,16"
+                        materialDesign:HintAssist.Hint="Username"
+                        materialDesign:TextFieldAssist.HasClearButton="True"
+                        FontSize="14"/>
+
+                <PasswordBox x:Name="txtPassWord"
+                           Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                           Height="56"
+                           Margin="0,0,0,32"
+                           materialDesign:HintAssist.Hint="Password"
+                           materialDesign:TextFieldAssist.HasClearButton="True"
+                           FontSize="14"/>
+
+                <Button Content="LOGIN"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="45"
+                        Background="#2196F3"
+                        BorderBrush="#2196F3"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="4"
+                        Click="LoginButton_Click"/>
+
+                <!-- Footer -->
+                <TextBlock Text="© 2024 Employee Management System"
+                         Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                         Foreground="#757575"
+                         HorizontalAlignment="Center"
+                         Margin="0,32,0,0"/>
+            </StackPanel>
+        </materialDesign:Card>
     </Grid>
 </Window>
