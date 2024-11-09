@@ -3,200 +3,175 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Employee Details" 
         Height="700" 
         Width="600"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-    <Window.Resources>
-        <!-- Style cho TextBlock labels -->
-        <Style x:Key="LabelStyle" TargetType="TextBlock">
-            <Setter Property="Margin" Value="0,0,10,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#2C3E50"/>
-        </Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Style cho TextBox -->
-        <Style x:Key="ModernTextBox" TargetType="TextBox">
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DDDDDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-                            <ScrollViewer x:Name="PART_ContentHost"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <!-- Header -->
+        <materialDesign:ColorZone Mode="PrimaryMid" 
+                                 Padding="16"
+                                 Background="#2196F3">
+            <TextBlock Text="Employee Information" 
+                     Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                     HorizontalAlignment="Center"
+                     Foreground="White"/>
+        </materialDesign:ColorZone>
 
-        <!-- Style cho ComboBox -->
-        <Style x:Key="ModernComboBox" TargetType="ComboBox">
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DDDDDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <!-- Style cho DatePicker -->
-        <Style x:Key="ModernDatePicker" TargetType="DatePicker">
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DDDDDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <!-- Style cho Button -->
-        <Style x:Key="ActionButton" TargetType="Button">
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Width" Value="100"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                            VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
-
-    <Border Background="White" Margin="15" CornerRadius="8" 
-            BorderBrush="#E0E0E0" BorderThickness="1">
-        <ScrollViewer Padding="20">
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1" Margin="16">
             <StackPanel>
-                <!-- Header -->
-                <TextBlock Text="Employee Information" 
-                         FontSize="24" 
-                         FontWeight="Bold" 
-                         Foreground="#2C3E50"
-                         HorizontalAlignment="Center"
-                         Margin="0,0,0,20"/>
-
                 <!-- Avatar Section -->
-                <Border Width="150" 
-                        Height="150" 
+                <Border Width="200" 
+                        Height="200" 
+                        Background="White"
                         BorderBrush="#2196F3" 
                         BorderThickness="2" 
-                        CornerRadius="75"
-                        Margin="0,0,0,20"
+                        CornerRadius="100"
+                        Margin="0,32,0,16"
                         HorizontalAlignment="Center">
-                    <Border.Effect>
-                        <DropShadowEffect BlurRadius="10" 
-                                        ShadowDepth="2" 
-                                        Opacity="0.3"/>
-                    </Border.Effect>
                     <Image x:Name="ImgAvatar" Stretch="UniformToFill"/>
                 </Border>
 
                 <Button x:Name="ButtonUploadImage" 
-                        Content="Upload Image" 
-                        Style="{StaticResource ActionButton}"
-                        Margin="0,0,0,30"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Content="Upload Image"
+                        Width="200"
+                        Height="40"
+                        Margin="0,0,0,40"
+                        Background="#2196F3"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="4"
                         HorizontalAlignment="Center"
                         Click="ButtonUploadImage_Click"/>
 
                 <!-- Employee Information Grid -->
-                <Grid Margin="0,0,0,20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="130"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="15"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <materialDesign:Card Background="White" Margin="0,0,0,16" Padding="16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="24"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <!-- Form Fields -->
-                    <TextBlock Text="Full Name:" Style="{StaticResource LabelStyle}" Grid.Row="0"/>
-                    <TextBox x:Name="TextBoxFullName" Style="{StaticResource ModernTextBox}" Grid.Row="0" Grid.Column="1"/>
+                        <!-- Form Fields -->
+                        <TextBlock Text="Full Name:" Grid.Row="0" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <TextBox x:Name="TextBoxFullName" Grid.Row="0" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                    <TextBlock Text="Birth Date:" Style="{StaticResource LabelStyle}" Grid.Row="2"/>
-                    <DatePicker x:Name="DatePickerBirthDate" Style="{StaticResource ModernDatePicker}" Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock Text="Birth Date:" Grid.Row="2" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <DatePicker x:Name="DatePickerBirthDate" Grid.Row="2" Grid.Column="1" 
+                                  Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
 
-                    <TextBlock Text="Gender:" Style="{StaticResource LabelStyle}" Grid.Row="4"/>
-                    <ComboBox x:Name="ComboBoxGender" Style="{StaticResource ModernComboBox}" Grid.Row="4" Grid.Column="1"/>
+                        <TextBlock Text="Gender:" Grid.Row="4" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ComboBoxGender" Grid.Row="4" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
 
-                    <TextBlock Text="User Account:" Style="{StaticResource LabelStyle}" Grid.Row="6"/>
-                    <ComboBox x:Name="ComboBoxUser" Style="{StaticResource ModernComboBox}" Grid.Row="6" Grid.Column="1" DisplayMemberPath="Username"/>
+                        <TextBlock Text="User Account:" Grid.Row="6" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ComboBoxUser" Grid.Row="6" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                DisplayMemberPath="Username"/>
 
-                    <TextBlock Text="Address:" Style="{StaticResource LabelStyle}" Grid.Row="8"/>
-                    <TextBox x:Name="TextBoxAddress" Style="{StaticResource ModernTextBox}" Grid.Row="8" Grid.Column="1"/>
+                        <TextBlock Text="Address:" Grid.Row="8" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <TextBox x:Name="TextBoxAddress" Grid.Row="8" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                    <TextBlock Text="Phone:" Style="{StaticResource LabelStyle}" Grid.Row="10"/>
-                    <TextBox x:Name="TextBoxPhone" Style="{StaticResource ModernTextBox}" Grid.Row="10" Grid.Column="1"/>
+                        <TextBlock Text="Phone:" Grid.Row="10" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <TextBox x:Name="TextBoxPhone" Grid.Row="10" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                    <TextBlock Text="Department:" Style="{StaticResource LabelStyle}" Grid.Row="12"/>
-                    <ComboBox x:Name="ComboBoxDepartment" Style="{StaticResource ModernComboBox}" Grid.Row="12" Grid.Column="1" 
-                             DisplayMemberPath="DepartmentName" SelectedValuePath="DepartmentID"/>
+                        <TextBlock Text="Department:" Grid.Row="12" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ComboBoxDepartment" Grid.Row="12" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                DisplayMemberPath="DepartmentName" 
+                                SelectedValuePath="DepartmentID"/>
 
-                    <TextBlock Text="Position:" Style="{StaticResource LabelStyle}" Grid.Row="14"/>
-                    <TextBox x:Name="TextBoxPosition" Style="{StaticResource ModernTextBox}" Grid.Row="14" Grid.Column="1"/>
+                        <TextBlock Text="Position:" Grid.Row="14" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <TextBox x:Name="TextBoxPosition" Grid.Row="14" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                    <TextBlock Text="Base Salary:" Style="{StaticResource LabelStyle}" Grid.Row="16"/>
-                    <TextBox x:Name="TextBoxBaseSalary" Style="{StaticResource ModernTextBox}" Grid.Row="16" Grid.Column="1"/>
+                        <TextBlock Text="Base Salary:" Grid.Row="16" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <TextBox x:Name="TextBoxBaseSalary" Grid.Row="16" Grid.Column="1" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                    <TextBlock Text="Start Date:" Style="{StaticResource LabelStyle}" Grid.Row="18"/>
-                    <DatePicker x:Name="DatePickerStartDate" Style="{StaticResource ModernDatePicker}" Grid.Row="18" Grid.Column="1"/>
-                </Grid>
+                        <TextBlock Text="Start Date:" Grid.Row="18" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                                 VerticalAlignment="Center"/>
+                        <DatePicker x:Name="DatePickerStartDate" Grid.Row="18" Grid.Column="1" 
+                                  Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                    </Grid>
+                </materialDesign:Card>
 
                 <!-- Action Buttons -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,24,0,0">
                     <Button x:Name="ButtonSave" 
-                            Content="Save" 
-                            Style="{StaticResource ActionButton}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="Save"
+                            Width="120"
+                            Height="40"
+                            Margin="8,0"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
                             Click="ButtonSave_Click"/>
                     <Button x:Name="ButtonCancel" 
-                            Content="Cancel" 
-                            Style="{StaticResource ActionButton}"
-                            Background="#6C757D"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Content="Cancel"
+                            Width="120"
+                            Height="40"
+                            BorderBrush="#2196F3"
+                            Foreground="#2196F3"
+                            materialDesign:ButtonAssist.CornerRadius="4"
                             Click="ButtonCancel_Click"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-    </Border>
+    </Grid>
 </Window>

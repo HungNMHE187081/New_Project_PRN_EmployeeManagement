@@ -3,90 +3,159 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        mc:Ignorable="d"
-        Title="Management Window" Height="450" Width="800">
+        Title="Management Window" 
+        Height="800" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-    <DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Header section -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="#34495E">
-            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
-                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button x:Name="Logout" Content="Logout" Height="39" Margin="0,10,10,0"
-                    Background="#E74C3C" Foreground="White" FontWeight="Bold" Width="100" 
-                    HorizontalAlignment="Right" VerticalAlignment="Center" Click="Logout_Click"/>
-        </DockPanel>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header with Logout -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <DockPanel>
+                        <TextBlock Text="Dashboard" 
+                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                 Foreground="White"/>
+                        <Button x:Name="Logout"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                Content="Logout"
+                                Foreground="White"
+                                HorizontalAlignment="Right"
+                                Click="Logout_Click"/>
+                    </DockPanel>
+                </materialDesign:ColorZone>
 
-        <!-- Sidebar with navigation buttons -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
-            <TextBlock Text="Dashboard" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
-            <Button x:Name="ManageUsersAccount" Content="👤 Dashboard" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageUsersAccount_Click"/>
-            <Button x:Name="ManageEmployeesAccount" Content="👥 Manage Employees" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageEmployeesAccount_Click"/>
-            <Button x:Name="ManageDepartment" Content="🏢 Manage Departments" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageDepartment_Click"/>
-            <Button x:Name="ManageSalary" Content="💰 Manage Salaries" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageSalary_Click"/>
-            <Button x:Name="ManageAttendance" Content="📅 Manage Attendance" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="ManageAttendance_Click"/>
-            <Button Content="📊 Generate Report" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="Button_Click"/>
-            <Button x:Name="Notification" Content="🔔 Notification" Height="30" Margin="10,5"
-                    Background="#007ACC" Foreground="White" FontWeight="Bold" Width="180" Click="Notification_Click"/>
-        </StackPanel>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="8">
+                    <Button x:Name="ManageUsersAccount"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="👤 Dashboard"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="ManageUsersAccount_Click"/>
 
-        <!-- Main content area -->
-        <Border BorderBrush="#007ACC" BorderThickness="2" Margin="5" Background="White">
-            <Grid>
+                    <Button x:Name="ManageEmployeesAccount"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="👥 Manage Employees"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="ManageEmployeesAccount_Click"/>
+
+                    <Button x:Name="ManageDepartment"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="🏢 Manage Departments"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="ManageDepartment_Click"/>
+
+                    <Button x:Name="ManageSalary"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="💰 Manage Salaries"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="ManageSalary_Click"/>
+
+                    <Button x:Name="ManageAttendance"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="📅 Manage Attendance"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="ManageAttendance_Click"/>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="📊 Generate Report"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="Button_Click"/>
+
+                    <Button x:Name="Notification"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Content="🔔 Notification"
+                            HorizontalContentAlignment="Left"
+                            Height="45" Margin="0,4"
+                            Foreground="#2196F3"
+                            Click="Notification_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid Margin="16">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
 
-                <!-- First chart title -->
-                <TextBlock Grid.Row="0" Text="Employee Distribution(Take from top 4 Departments)" FontSize="12" FontWeight="Bold" 
-             HorizontalAlignment="Center" Margin="10"/>
+                <!-- First Chart Section -->
+                <TextBlock Grid.Row="0" 
+                          Text="Employee Distribution (Top 4 Departments)" 
+                          Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                          Foreground="#2196F3"
+                          HorizontalAlignment="Center" 
+                          Margin="0,0,0,16"/>
 
-                <!-- First chart -->
-                <lvc:CartesianChart Margin="10,0,10,0" Height="199" VerticalAlignment="Center" Loaded="CartesianChart_Loaded" Grid.Row="1">
+                <lvc:CartesianChart Grid.Row="1" 
+                                   Margin="0,0,0,24" 
+                                   Loaded="CartesianChart_Loaded">
                     <lvc:CartesianChart.Series>
-                        <lvc:ColumnSeries Title="Employees" Values="{Binding EmployeeValues}"/>
+                        <lvc:ColumnSeries Title="Employees" 
+                                         Values="{Binding EmployeeValues}"/>
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Departments" Labels="{Binding DepartmentLabels}"/>
+                        <lvc:Axis Title="Departments" 
+                                 Labels="{Binding DepartmentLabels}"/>
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Number of Employees"/>
                     </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>
 
-                <!-- Second chart title -->
-                <TextBlock Grid.Row="2" Text="Average Salary by Department(Take From Top 4 Departments)" FontSize="12" FontWeight="Bold" 
-             HorizontalAlignment="Center" Margin="0,20,0,0"/>
+                <!-- Second Chart Section -->
+                <TextBlock Grid.Row="2" 
+                          Text="Average Salary by Department (Top 4 Departments)" 
+                          Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                          Foreground="#2196F3"
+                          HorizontalAlignment="Center" 
+                          Margin="0,0,0,16"/>
 
-                <!-- Second chart -->
-                <lvc:CartesianChart Grid.Row="3" Margin="10,14,10,28" Grid.RowSpan="3">
+                <lvc:CartesianChart Grid.Row="3" 
+                                   Margin="0,0,0,16">
                     <lvc:CartesianChart.Series>
-                        <lvc:LineSeries Title="Salaries" Values="{Binding SalaryValues}"/>
+                        <lvc:LineSeries Title="Salaries" 
+                                       Values="{Binding SalaryValues}"/>
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Departments" Labels="{Binding DepartmentLabels}"/>
+                        <lvc:Axis Title="Departments" 
+                                 Labels="{Binding DepartmentLabels}"/>
                     </lvc:CartesianChart.AxisX>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis Title="Average Salary"/>
                     </lvc:CartesianChart.AxisY>
                 </lvc:CartesianChart>
-
-                <!-- Third chart title -->
-
-                <!-- Third chart -->
             </Grid>
-        </Border>
-    </DockPanel>
+        </materialDesign:Card>
+    </Grid>
 </Window>

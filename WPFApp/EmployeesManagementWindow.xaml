@@ -3,238 +3,252 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Employee Management System"
         Height="800" 
         Width="1200"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
-    
-    <Window.Resources>
-        <!-- Style cho Button -->
-        <Style x:Key="ActionButton" TargetType="Button">
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Margin" Value="8"/>
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="4"
-                                BorderThickness="0">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                            VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Style cho TextBox -->
-        <Style x:Key="ModernTextBox" TargetType="TextBox">
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DDDDDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Style cho ComboBox -->
-        <Style x:Key="ModernComboBox" TargetType="ComboBox">
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DDDDDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
+        <!-- App Bar -->
+        <materialDesign:ColorZone Mode="PrimaryMid" 
+                                 Padding="16"
+                                 Background="#2196F3">
+            <DockPanel>
+                <TextBlock Text="Employee Management System" 
+                         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Center"
+                         Foreground="White"/>
+            </DockPanel>
+        </materialDesign:ColorZone>
 
-        <!-- Style cho DataGrid -->
-        <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#DDDDDD"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="RowBackground" Value="White"/>
-            <Setter Property="AlternatingRowBackground" Value="#F8F8F8"/>
-            <Setter Property="HorizontalGridLinesBrush" Value="#EEEEEE"/>
-            <Setter Property="VerticalGridLinesBrush" Value="#EEEEEE"/>
-            <Setter Property="RowHeight" Value="40"/>
-            <Setter Property="HeadersVisibility" Value="Column"/>
-        </Style>
-
-        <Style TargetType="DataGridColumnHeader">
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Padding" Value="10,0"/>
-        </Style>
-    </Window.Resources>
-
-    <Border Background="White" Margin="10" CornerRadius="8" 
-            BorderBrush="#DDDDDD" BorderThickness="1">
-        <Grid Margin="15">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <!-- Main Content -->
+        <Grid Grid.Row="1" Margin="16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Left Panel - Actions -->
-            <Border Grid.Column="0" Grid.RowSpan="2" 
-                    Background="#F8F9FA" CornerRadius="6" 
-                    Padding="10">
-                <StackPanel>
-                    <TextBlock Text="ACTIONS" Margin="8,0,0,15" 
-                             FontSize="14" FontWeight="Bold" 
-                             Foreground="#495057"/>
-                    <Button x:Name="CreateNewEmployeeAccount" 
-                            Content="Create New Employee Account" 
-                            Style="{StaticResource ActionButton}"
+            <materialDesign:Card Grid.Column="0" Margin="0,0,16,0"
+                               Background="White">
+                <StackPanel Margin="16">
+                    <TextBlock Text="ACTIONS" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Margin="0,0,0,16"
+                             Foreground="#2196F3"/>
+                    
+                    <Button x:Name="CreateNewEmployeeAccount"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Height="45" Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            Content="Create New Employee Account"
                             Click="CreateNewEmployeeAccount_Click"/>
-                    <Button x:Name="CreateEmployee" 
+
+                    <Button x:Name="CreateEmployee"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Height="45" Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
                             Content="Create New Employee"
-                            Style="{StaticResource ActionButton}"
                             Click="CreateEmployee_Click"/>
-                    <Button x:Name="EditEmployee" 
+
+                    <Button x:Name="EditEmployee"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Height="45" Margin="0,4"
+                            BorderBrush="#2196F3"
+                            Foreground="#2196F3"
                             Content="Edit Employee"
-                            Style="{StaticResource ActionButton}"
                             Click="EditEmployee_Click"/>
-                    <Button x:Name="DeleteEmployee" 
+
+                    <Button x:Name="DeleteEmployee"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Height="45" Margin="0,4"
+                            Background="#F44336"
+                            Foreground="White"
                             Content="Delete Employee"
-                            Style="{StaticResource ActionButton}"
-                            Background="#DC3545"
                             Click="DeleteEmployee_Click"/>
-                    <Button x:Name="RefreshEmployee" 
+
+                    <Button x:Name="RefreshEmployee"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Height="45" Margin="0,4"
+                            Background="#4CAF50"
+                            Foreground="White"
                             Content="Refresh Window"
-                            Style="{StaticResource ActionButton}"
-                            Background="#28A745"
                             Click="RefreshEmployee_Click"/>
-                    <Button x:Name="Back" 
-                        Content="Back To Home"
-                        Style="{StaticResource ActionButton}"
-                        Background="#28A745"
-                        Click="Back_Click"/>
+
+                    <Button x:Name="Back"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Height="45" Margin="0,4"
+                            BorderBrush="#2196F3"
+                            Foreground="#2196F3"
+                            Content="Back To Home"
+                            Click="Back_Click"/>
                 </StackPanel>
-            </Border>
+            </materialDesign:Card>
 
             <!-- Right Content -->
-            <Grid Grid.Column="1" Grid.RowSpan="2" Margin="15,0,0,0">
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Search & Filters -->
-                <StackPanel Grid.Row="0">
-                    <!-- Search Section -->
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                        <TextBlock Text="Search by:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                        <ComboBox x:Name="ComboBoxSearchBy" Width="150" Style="{StaticResource ModernComboBox}" Margin="0,0,10,0"/>
-                        <TextBox x:Name="TextBoxSearch" Width="200" Style="{StaticResource ModernTextBox}" Margin="0,0,10,0"/>
-                        <Button x:Name="ButtonSearch" Content="Search" Width="80" Style="{StaticResource ActionButton}" Height="35" Click="ButtonSearch_Click"/>
-                    </StackPanel>
-
-                    <!-- Filters Section -->
-                    <Border Background="White" Padding="15" CornerRadius="4" Margin="0,0,0,10">
-                        <StackPanel>
-                            <TextBlock Text="Filters" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
-                            <WrapPanel>
-                                <StackPanel Margin="0,0,10,0">
-                                    <TextBlock Text="Department:" Margin="0,0,0,5"/>
-                                    <ComboBox x:Name="ComboBoxDepartment" 
-                                              Width="150" 
-                                              Style="{StaticResource ModernComboBox}"
-                                              DisplayMemberPath="DepartmentName"
-                                              SelectedValuePath="DepartmentID"/>
-                                </StackPanel>
-                                
-                                <StackPanel Margin="0,0,10,0">
-                                    <TextBlock Text="Gender:" Margin="0,0,0,5"/>
-                                    <ComboBox x:Name="ComboBoxGender" Width="100" Style="{StaticResource ModernComboBox}"/>
-                                </StackPanel>
-                                
-                                <StackPanel Margin="0,0,10,0">
-                                    <TextBlock Text="Min Salary:" Margin="0,0,0,5"/>
-                                    <TextBox x:Name="TextBoxMinSalary" Width="150" Style="{StaticResource ModernTextBox}"/>
-                                </StackPanel>
-                                
-                                <StackPanel Margin="0,0,10,0">
-                                    <TextBlock Text="Max Salary:" Margin="0,0,0,5"/>
-                                    <TextBox x:Name="TextBoxMaxSalary" Width="150" Style="{StaticResource ModernTextBox}"/>
-                                </StackPanel>
-                                
-                                <StackPanel VerticalAlignment="Bottom">
-                                    <Button x:Name="ButtonApplyFilter" Content="Apply" Width="80" Style="{StaticResource ActionButton}" Height="35" Click="ButtonApplyFilter_Click"/>
-                                </StackPanel>
-                                
-                                <StackPanel VerticalAlignment="Bottom">
-                                    <Button x:Name="ButtonClearFilter" Content="Clear" Width="80" Style="{StaticResource ActionButton}" Height="35" Background="#6C757D" Click="ButtonClearFilter_Click"/>
-                                </StackPanel>
-                            </WrapPanel>
+                <!-- Search Section -->
+                <materialDesign:Card Grid.Row="0" Margin="0,0,0,16"
+                                   Padding="16"
+                                   Background="White">
+                    <StackPanel>
+                        <TextBlock Text="Search" 
+                                 Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                 Margin="0,0,0,8"
+                                 Foreground="#2196F3"/>
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox x:Name="ComboBoxSearchBy"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                    Width="150"
+                                    Margin="0,0,8,0"/>
+                            
+                            <TextBox x:Name="TextBoxSearch"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   Width="250"
+                                   Margin="0,0,8,0"/>
+                            
+                            <Button x:Name="ButtonSearch"
+                                   Style="{StaticResource MaterialDesignRaisedButton}"
+                                   Background="#2196F3"
+                                   Foreground="White"
+                                   Content="Search"
+                                   Click="ButtonSearch_Click"/>
                         </StackPanel>
-                    </Border>
-                </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <!-- Filters Section -->
+                <materialDesign:Card Grid.Row="1" Margin="0,0,0,16"
+                                   Padding="16"
+                                   Background="White">
+                    <StackPanel>
+                        <TextBlock Text="Filters" 
+                                 Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                 Margin="0,0,0,16"
+                                 Foreground="#2196F3"/>
+                        
+                        <WrapPanel>
+                            <ComboBox x:Name="ComboBoxDepartment"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                    materialDesign:HintAssist.Hint="Department"
+                                    Width="150"
+                                    Margin="0,0,8,8"
+                                    DisplayMemberPath="DepartmentName"
+                                    SelectedValuePath="DepartmentID"/>
+
+                            <ComboBox x:Name="ComboBoxGender"
+                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                    materialDesign:HintAssist.Hint="Gender"
+                                    Width="100"
+                                    Margin="0,0,8,8"/>
+
+                            <TextBox x:Name="TextBoxMinSalary"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   materialDesign:HintAssist.Hint="Min Salary"
+                                   Width="120"
+                                   Margin="0,0,8,8"/>
+
+                            <TextBox x:Name="TextBoxMaxSalary"
+                                   Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                   materialDesign:HintAssist.Hint="Max Salary"
+                                   Width="120"
+                                   Margin="0,0,8,8"/>
+
+                            <Button x:Name="ButtonApplyFilter"
+                                   Style="{StaticResource MaterialDesignRaisedButton}"
+                                   Background="#2196F3"
+                                   Foreground="White"
+                                   Content="Apply"
+                                   Margin="0,0,8,8"
+                                   Click="ButtonApplyFilter_Click"/>
+
+                            <Button x:Name="ButtonClearFilter"
+                                   Style="{StaticResource MaterialDesignOutlinedButton}"
+                                   BorderBrush="#2196F3"
+                                   Foreground="#2196F3"
+                                   Content="Clear"
+                                   Click="ButtonClearFilter_Click"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </materialDesign:Card>
 
                 <!-- DataGrid -->
-                <DataGrid Grid.Row="1" x:Name="DataGridEmployees"
-                         AutoGenerateColumns="False"
-                         SelectionMode="Single"
-                         SelectionUnit="FullRow"
-                         MouseDoubleClick="DataGridEmployees_MouseDoubleClick"
-                         IsReadOnly="True"
-                         AlternationCount="2147483647">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" 
-                                          Width="50"
-                                          Binding="{Binding EmployeeID}"/>
-                        <DataGridTextColumn Header="Full Name" 
-                                          Binding="{Binding FullName}" 
-                                          Width="*"/>
-                        <DataGridTemplateColumn Header="Avatar" Width="80">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border CornerRadius="25" Width="50" Height="50">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding AvatarPath}"/>
-                                        </Border.Background>
-                                    </Border>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Birth Date" 
-                                          Binding="{Binding BirthDate, StringFormat=dd/MM/yyyy}" 
-                                          Width="100"/>
-                        <DataGridTextColumn Header="Gender" 
-                                          Binding="{Binding Gender}" 
-                                          Width="80"/>
-                        <DataGridTextColumn Header="Department" 
-                                          Binding="{Binding Departments.DepartmentName}" 
-                                          Width="120"/>
-                        <DataGridTextColumn Header="Position" 
-                                          Binding="{Binding Position}" 
-                                          Width="120"/>
-                        <DataGridTextColumn Header="Salary" 
-                                          Binding="{Binding BaseSalary, StringFormat=N0}" 
-                                          Width="100"/>
-                        <DataGridTextColumn Header="Start Date" 
-                                          Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" 
-                                          Width="100"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <materialDesign:Card Grid.Row="2"
+                                   Background="White">
+                    <DataGrid x:Name="DataGridEmployees"
+                             AutoGenerateColumns="False"
+                             SelectionMode="Single"
+                             SelectionUnit="FullRow"
+                             MouseDoubleClick="DataGridEmployees_MouseDoubleClick"
+                             IsReadOnly="True"
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             materialDesign:DataGridAssist.CellPadding="13"
+                             materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" 
+                                              Binding="{Binding EmployeeID}"
+                                              Width="60"/>
+                            <DataGridTextColumn Header="Full Name" 
+                                              Binding="{Binding FullName}" 
+                                              Width="*"/>
+                            <DataGridTemplateColumn Header="Avatar" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Width="40" Height="40" 
+                                                CornerRadius="20" 
+                                                ClipToBounds="True">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding AvatarPath}"/>
+                                            </Border.Background>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Birth Date" 
+                                              Binding="{Binding BirthDate, StringFormat=dd/MM/yyyy}" 
+                                              Width="100"/>
+                            <DataGridTextColumn Header="Gender" 
+                                              Binding="{Binding Gender}" 
+                                              Width="80"/>
+                            <DataGridTextColumn Header="Department" 
+                                              Binding="{Binding Departments.DepartmentName}" 
+                                              Width="120"/>
+                            <DataGridTextColumn Header="Position" 
+                                              Binding="{Binding Position}" 
+                                              Width="120"/>
+                            <DataGridTextColumn Header="Salary" 
+                                              Binding="{Binding BaseSalary, StringFormat=N0}" 
+                                              Width="100"/>
+                            <DataGridTextColumn Header="Start Date" 
+                                              Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}" 
+                                              Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:Card>
             </Grid>
         </Grid>
-    </Border>
+    </Grid>
 </Window>

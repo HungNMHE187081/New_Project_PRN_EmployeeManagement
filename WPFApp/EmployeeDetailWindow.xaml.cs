@@ -43,8 +43,8 @@ namespace WPFApp
 
         private void LoadInitialData()
         {
-            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "M" });
-            ComboBoxGender.Items.Add(new ComboBoxItem { Content = "F" });
+            List<String> gender = new List<string> { "F", "M" };
+            ComboBoxGender.ItemsSource = gender;
             LoadDepartments();
             LoadUnassignedUsers();
 
@@ -76,34 +76,19 @@ namespace WPFApp
 
             TextBoxFullName.Text = _employee.FullName;
             DatePickerBirthDate.SelectedDate = _employee.BirthDate;
-
-            if (!string.IsNullOrEmpty(_employee.Gender))
-            {
-                ComboBoxGender.SelectedItem = ComboBoxGender.Items.Cast<ComboBoxItem>()
-                    .FirstOrDefault(item => item.Content.ToString() == _employee.Gender);
-            }
-            List<String> gender = new List<string>();
-            gender.Add("F");
-            gender.Add("M");
             TextBoxAddress.Text = _employee.Address;
             TextBoxPhone.Text = _employee.Phone;
             ComboBoxDepartment.SelectedValue = _employee.DepartmentID;
-            ComboBoxGender.ItemsSource = gender;
+
             if (_employee.Gender != null)
             {
-                if (_employee.Gender.Equals("F"))
-                {
-                    ComboBoxGender.SelectedIndex = 0;
-                }
-                else
-                {
-                    ComboBoxGender.SelectedIndex = 1;
-                }
+                ComboBoxGender.SelectedItem = _employee.Gender;
             }
             else
             {
                 ComboBoxGender.SelectedIndex = 0;
             }
+
             TextBoxPosition.Text = _employee.Position;
             TextBoxBaseSalary.Text = _employee.BaseSalary.ToString("N0");
             DatePickerStartDate.SelectedDate = _employee.StartDate;
