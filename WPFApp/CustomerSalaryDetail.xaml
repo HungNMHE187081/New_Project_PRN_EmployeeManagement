@@ -3,76 +3,153 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="CustomerSalaryDetail" Height="450" Width="800">
-    <DockPanel>
-        <!-- Top Header with Centered Title -->
-        <DockPanel DockPanel.Dock="Top" Height="70" Background="#2C3E50">
-            <TextBlock Text="Employee Salary Detail" FontSize="28" FontWeight="Bold" 
-                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-        </DockPanel>
+        Title="Salary Request" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Left Navigation Panel with Buttons and Icons -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
-            <TextBlock Text="Salary Request" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
-            <Button x:Name="Logout" Content="📴 Back To Home" Margin="10,5" Height="45" Width="180"  
-                    Background="#E74C3C" Foreground="White" FontSize="16" FontWeight="Medium" Click="Logout_Click"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Main Content Area with a Placeholder Section -->
-        <Grid x:Name="MainContentGrid" Margin="10">
-            <!-- Default Content -->
-            <TextBlock x:Name="DefaultContent" Text="Create request for early salary receivement."
-                       FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="29,10,0,0"/>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Salary Request" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-            <!-- Department Management Section -->
-            <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
-                <TextBlock Text="Department Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridDepartments" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-
-            <!-- Attendance Management Section -->
-            <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
-                <TextBlock Text="Attendance Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-
-            <!-- Salary Management Section -->
-            <StackPanel x:Name="SalarySection" Visibility="Collapsed">
-                <TextBlock Text="Salary Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridSalaries" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-
-            <TextBlock HorizontalAlignment="Left" Margin="29,84,0,0" TextWrapping="Wrap" Text="Base Salary:" VerticalAlignment="Top"/>
-            <TextBox x:Name="BaseSalary" HorizontalAlignment="Left" Margin="181,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107" Height="20" IsReadOnly="True"/>
-            <TextBox x:Name="ExpectedSalary" HorizontalAlignment="Left" Margin="181,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="107" Height="20" Visibility="Hidden"/>
-
-            <TextBlock HorizontalAlignment="Left" Margin="29,128,0,0" TextWrapping="Wrap" Text="Due Date:" VerticalAlignment="Top"/>
-            <DatePicker x:Name="Duedate" HorizontalAlignment="Left" Margin="179,124,0,0" VerticalAlignment="Top" />
-
-            <TextBlock HorizontalAlignment="Left" Margin="29,162,0,0" TextWrapping="Wrap" Text="Expected Date:" VerticalAlignment="Top"/>
-            <DatePicker x:Name="ExpectedDate" HorizontalAlignment="Left" Margin="181,168,0,0" VerticalAlignment="Top"/>
-
-            <TextBlock HorizontalAlignment="Left" Margin="29,206,0,0" TextWrapping="Wrap" Text="Message:" VerticalAlignment="Top"/>
-            <TextBox x:Name="Message" HorizontalAlignment="Left" Margin="181,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" Height="75" />
-
-            <Button x:Name="Save" Content="💾 Request" HorizontalAlignment="Left" Margin="183,295,0,0" VerticalAlignment="Top" Height="24" Width="80" 
-        Background="#3498DB" Foreground="White" FontSize="10" FontWeight="Bold" Click="Request"/>
-
-            <Border x:Name="ConfirmBox" Background="#2C3E50" CornerRadius="10" Padding="10" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="2" Canvas.Top="-4" Margin="0,77,0,0" Visibility="Hidden">
-                <StackPanel>
-                    <TextBlock x:Name="MessageConfirm" Text="Are you sure you want to proceed?" 
-                       Foreground="White" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,20,0,20"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button x:Name="ApproveConfirm" Content="Yes" Width="100" Margin="10" 
-                        Background="#27AE60" Foreground="White" Click="ApproveConfirmation" Height="25"/>
-                        <Button x:Name="DisapproveConfirm" Content="No" Width="100" Margin="10" 
-                        Background="#E74C3C" Foreground="White" Click="DisapproveConfirmation" Height="27"/>
-                    </StackPanel>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button x:Name="Logout"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🏠 Back To Home"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Logout_Click"/>
                 </StackPanel>
-            </Border>
+            </DockPanel>
+        </materialDesign:Card>
 
-        </Grid>
-    </DockPanel>
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid x:Name="MainContentGrid" Margin="32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <TextBlock Text="Create request for early salary receivement"
+                         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                         Foreground="#2196F3"
+                         Grid.Row="0"
+                         Margin="0,0,0,32"/>
+
+                <!-- Form Content -->
+                <StackPanel Grid.Row="1" MaxWidth="600" HorizontalAlignment="Left">
+                    <!-- Base Salary -->
+                    <TextBox x:Name="BaseSalary"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Width="300"
+                            Height="56"
+                            Margin="0,8"
+                            materialDesign:HintAssist.Hint="Base Salary"
+                            IsReadOnly="True"/>
+
+                    <!-- Expected Salary -->
+                    <TextBox x:Name="ExpectedSalary"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Width="300"
+                            Height="56"
+                            Margin="0,8"
+                            materialDesign:HintAssist.Hint="Expected Salary"
+                            Visibility="Hidden"/>
+
+                    <!-- Due Date -->
+                    <DatePicker x:Name="Duedate"
+                              Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                              Width="300"
+                              Height="56"
+                              Margin="0,8"
+                              materialDesign:HintAssist.Hint="Due Date"/>
+
+                    <!-- Expected Date -->
+                    <DatePicker x:Name="ExpectedDate"
+                              Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                              Width="300"
+                              Height="56"
+                              Margin="0,8"
+                              materialDesign:HintAssist.Hint="Expected Date"/>
+
+                    <!-- Message -->
+                    <TextBox x:Name="Message"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Width="300"
+                            Height="120"
+                            Margin="0,8"
+                            TextWrapping="Wrap"
+                            materialDesign:HintAssist.Hint="Message"
+                            VerticalScrollBarVisibility="Auto"/>
+
+                    <!-- Save Button -->
+                    <Button x:Name="Save"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="💾 Submit Request"
+                            Height="45"
+                            Width="300"
+                            Margin="0,16,0,0"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Request"/>
+                </StackPanel>
+
+                <!-- Confirmation Dialog -->
+                <materialDesign:DialogHost Grid.Row="0" Grid.RowSpan="2" x:Name="ConfirmBox" Visibility="Hidden">
+                    <materialDesign:Card Width="300" Padding="16">
+                        <StackPanel>
+                            <TextBlock x:Name="MessageConfirm"
+                                     Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                     TextAlignment="Center"
+                                     Margin="0,0,0,16"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="ApproveConfirm"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Content="Yes"
+                                        Width="100"
+                                        Margin="8,0"
+                                        Background="#4CAF50"
+                                        Foreground="White"
+                                        Click="ApproveConfirmation"/>
+                                <Button x:Name="DisapproveConfirm"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Content="No"
+                                        Width="100"
+                                        Margin="8,0"
+                                        BorderBrush="#F44336"
+                                        Foreground="#F44336"
+                                        Click="DisapproveConfirmation"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </materialDesign:DialogHost>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

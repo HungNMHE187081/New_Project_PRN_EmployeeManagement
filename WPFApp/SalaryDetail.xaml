@@ -3,72 +3,139 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="SalaryDetail" Height="450" Width="800">
-    <DockPanel>
-        <!-- Top section with a header using DockPanel -->
-        <DockPanel DockPanel.Dock="Top" Height="50" Background="#3A7CA5">
-            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
-                       Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </DockPanel>
+        Title="Salary Detail" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Left navigation menu using StackPanel and DockPanel -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
-            <TextBlock Text="Salary Detail" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
-            <Button Content="🏠 Back To Home" Margin="10,5" Height="45" Width="180" 
-                    Click="BackButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Main content area using Grid -->
-        <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Salary Detail" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-            <!-- Employee List -->
-            <ListBox x:Name="EmployeeListBox" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" Grid.Column="0" Margin="5"/>
-                            <TextBlock Text="{Binding Position}" Grid.Column="1" Margin="5"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🏠 Back To Home"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="BackButton_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
 
-            <!-- Salary Modification DataGrid -->
-            <DataGrid x:Name="DataGridSalaryModification" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="0" Margin="0,10,10,0" CanUserAddRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="80"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="65"/>
-                    <DataGridTextColumn Header="Amount" Binding="{Binding Amount}" Width="55"/>
-                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="160"/>
-                    <DataGridTemplateColumn Header="Date" Width="110">
-                        <DataGridTemplateColumn.CellTemplate>
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Employee List -->
+                <materialDesign:Card Grid.Row="0" Grid.Column="0" Margin="0,0,16,16">
+                    <ListBox x:Name="EmployeeListBox" 
+                            Style="{StaticResource MaterialDesignListBox}"
+                            MaxHeight="200">
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Date, StringFormat={}{0:dd-MM-yyyy}}"/>
+                                <Grid Margin="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" 
+                                             Grid.Column="0"
+                                             Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                                    <TextBlock Text="{Binding Position}" 
+                                             Grid.Column="1"
+                                             Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                             Foreground="#757575"/>
+                                </Grid>
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </materialDesign:Card>
 
-            <!-- Report Section -->
-            <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="10">
-                <TextBlock x:Name="ReportEmployeeName"  Margin="0,0,0,10"/>
-                <Button x:Name="Export" Content="📤 Export" Width="100" Click="Export_Click" Background="#007ACC" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,10,0,0"/>
-            </StackPanel>
-        </Grid>
-    </DockPanel>
+                <!-- Salary Modification DataGrid -->
+                <DataGrid x:Name="DataGridSalaryModification" 
+                         Grid.Row="1" 
+                         Grid.Column="0"
+                         Style="{StaticResource MaterialDesignDataGrid}"
+                         AutoGenerateColumns="False"
+                         Margin="0,0,16,0"
+                         CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Employee ID" 
+                                          Binding="{Binding EmployeeId}" 
+                                          Width="80"/>
+                        <DataGridTextColumn Header="Status" 
+                                          Binding="{Binding Status}" 
+                                          Width="65"/>
+                        <DataGridTextColumn Header="Amount" 
+                                          Binding="{Binding Amount}" 
+                                          Width="55"/>
+                        <DataGridTextColumn Header="Description" 
+                                          Binding="{Binding Description}" 
+                                          Width="*"/>
+                        <DataGridTemplateColumn Header="Date" Width="110">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Date, StringFormat={}{0:dd-MM-yyyy}}"
+                                             VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Report Section -->
+                <materialDesign:Card Grid.Row="0" 
+                                   Grid.RowSpan="2" 
+                                   Grid.Column="1"
+                                   Padding="16">
+                    <StackPanel>
+                        <TextBlock x:Name="ReportEmployeeName"
+                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                 Margin="0,0,0,16"/>
+                        <Button x:Name="Export"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Content="📤 Export"
+                                Height="45"
+                                Width="120"
+                                Background="#2196F3"
+                                Foreground="White"
+                                materialDesign:ButtonAssist.CornerRadius="4"
+                                HorizontalAlignment="Right"
+                                Click="Export_Click"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>
