@@ -3,64 +3,125 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="ReportWindow" Height="450" Width="800">
-    <DockPanel>
-        <!-- Top Header with Centered Title -->
-        <DockPanel DockPanel.Dock="Top" Height="70" Background="#3A7CA5">
-            <TextBlock Text="Employee " FontSize="28" FontWeight="Bold" 
-            Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-        </DockPanel>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Report Window" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke"
+        Loaded="Window_Loaded">
 
-        <!-- Left Navigation Panel with Buttons and Icons -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#E1E1E1" Margin="0,0,5,0">
-            <TextBlock Text="Menu" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="#333"/>
-            <Button Content="💰 Report" Margin="10,5" Height="45" Width="180" Click="ReportButtonClick" 
-         Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium"/>
-            <Button x:Name="Notification" Content="🔔 Notification" Margin="10,5" Height="45" Width="180" 
-         Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium" Click="Notification_Click"/>
-            <Button x:Name="Back" Content="Back to Home" Margin="10,5" Height="45" Width="180" Click="CheckOutButtonClick" 
-         Background="#5087C1" Foreground="White" FontSize="16" FontWeight="Medium"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Main Content Area with a Placeholder Section -->
-        <Grid x:Name="MainContentGrid" Margin="10">
-            <!-- Default Content -->
-            <DataGrid x:Name="dgData"
-   SelectionChanged="dgData_SelectionChanged"
-   Margin="0,2,0,73"
-   ColumnWidth="*" />
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Report Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-            <Button Content="Generate"
- FontSize="20"
- Click="btnGenerate_Click"
- HorizontalAlignment="Left"
- x:Name="btnGenerate"
- Margin="455,306,0,0"
- VerticalAlignment="Top"
- Width="110"
- Height="28"
- Background="#FFD6EFF3"
- FontFamily="Arial Narrow"
-                 />
-            <!-- Department Management Section -->
-            <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
-                <TextBlock Text="Department Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridDepartments" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="📊 Report"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="ReportButtonClick"/>
 
-            <!-- Attendance Management Section -->
-            <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
-                <TextBlock Text="Attendance Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+                    <Button x:Name="Notification"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🔔 Notification"
+                            Height="45"
+                            Margin="0,8,0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Notification_Click"/>
 
-            <!-- Salary Management Section -->
-            <StackPanel x:Name="SalarySection" Visibility="Collapsed">
-                <TextBlock Text="Salary Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridSalaries" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-        </Grid>
-    </DockPanel>
+                    <Button x:Name="Back"
+                            Style="{StaticResource MaterialDesignOutlinedButton}"
+                            Content="🏠 Back to Home"
+                            Height="45"
+                            Margin="0,4"
+                            BorderBrush="#2196F3"
+                            Foreground="#2196F3"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="CheckOutButtonClick"/>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid x:Name="MainContentGrid" Margin="16">
+                <!-- DataGrid -->
+                <DataGrid x:Name="dgData"
+                         Style="{StaticResource MaterialDesignDataGrid}"
+                         AutoGenerateColumns="True"
+                         Margin="0,0,0,80"
+                         SelectionChanged="dgData_SelectionChanged"/>
+
+                <!-- Generate Button -->
+                <Button x:Name="btnGenerate"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Content="📄 Generate Report"
+                        Height="45"
+                        Width="200"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Margin="0,16,0,0"
+                        Background="#2196F3"
+                        Foreground="White"
+                        materialDesign:ButtonAssist.CornerRadius="4"
+                        Click="btnGenerate_Click"/>
+
+                <!-- Department Section -->
+                <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
+                    <TextBlock Text="Department Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="#2196F3"
+                             Margin="0,0,0,16"/>
+                    <DataGrid x:Name="DataGridDepartments" 
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="True"/>
+                </StackPanel>
+
+                <!-- Attendance Section -->
+                <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
+                    <TextBlock Text="Attendance Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="#2196F3"
+                             Margin="0,0,0,16"/>
+                    <DataGrid x:Name="DataGridAttendance" 
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="True"/>
+                </StackPanel>
+
+                <!-- Salary Section -->
+                <StackPanel x:Name="SalarySection" Visibility="Collapsed">
+                    <TextBlock Text="Salary Management" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="#2196F3"
+                             Margin="0,0,0,16"/>
+                    <DataGrid x:Name="DataGridSalaries" 
+                             Style="{StaticResource MaterialDesignDataGrid}"
+                             AutoGenerateColumns="True"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

@@ -3,54 +3,127 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="Employee Attendance Request" Height="450" Width="800">
-    <DockPanel>
-        <!-- Top Header with Centered Title -->
-        <DockPanel DockPanel.Dock="Top" Height="70" Background="#2C3E50">
-            <TextBlock Text="Employee Attendance Request" FontSize="28" FontWeight="Bold" 
-                   Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-        </DockPanel>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Employee Attendance Request" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Left Navigation Panel with Buttons and Icons -->
-        <StackPanel DockPanel.Dock="Left" Width="217" Background="#34495E" Margin="0,0,5,0">
-            <TextBlock Text="Attendance Request" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
-            <Button x:Name="Logout" Content="📴 Back To Home" Margin="10,5" Height="45" Width="180"  
-                Background="#3498DB" Foreground="White" FontSize="16" FontWeight="Medium" Click="Logout_Click"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Main Content Area with a Placeholder Section -->
-        <Grid x:Name="MainContentGrid" Margin="10">
-            <!-- Default Content -->
-            <TextBlock x:Name="DefaultContent" Text="Create request for absence."
-                   FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="29,10,0,0"/>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Attendance Request" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-            <!-- Department Management Section -->
-            <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
-                <TextBlock Text="Department Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridDepartments" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button x:Name="Logout"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🏠 Back To Home"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Logout_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
 
-            <!-- Attendance Management Section -->
-            <StackPanel x:Name="AttendanceSection" Visibility="Collapsed">
-                <TextBlock Text="Attendance Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridAttendance" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid Margin="32">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <!-- Salary Management Section -->
-            <StackPanel x:Name="SalarySection" Visibility="Collapsed">
-                <TextBlock Text="Salary Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridSalaries" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
+                <!-- Header -->
+                <TextBlock Text="Create request for absence"
+                         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                         Foreground="#2196F3"
+                         Margin="0,0,0,32"/>
 
-            <!-- Form Elements -->
-            <TextBlock HorizontalAlignment="Left" Margin="29,108,0,0" TextWrapping="Wrap" Text="Expected Date:" VerticalAlignment="Top"/>
-            <DatePicker x:Name="ExpectedDate" HorizontalAlignment="Left" Margin="181,102,0,0" VerticalAlignment="Top" SelectedDateChanged="ValidDate"/>
-            <TextBlock HorizontalAlignment="Left" Margin="29,158,0,0" TextWrapping="Wrap" Text="Message:" VerticalAlignment="Top"/>
-            <TextBox x:Name="Message" HorizontalAlignment="Left" Margin="181,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" Height="75"/>
-            <Button x:Name="Save" Content="💾 Request" HorizontalAlignment="Left" Margin="181,245,0,0" VerticalAlignment="Top" Height="24" Width="80" 
-                Background="#3498DB" Foreground="White" FontSize="10" FontWeight="Medium" Click="Save_Click"/>
-        </Grid>
-    </DockPanel>
+                <!-- Form Content -->
+                <Grid Grid.Row="1" Margin="0,0,0,32">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Expected Date -->
+                    <TextBlock Text="Expected Date:" 
+                             Style="{StaticResource MaterialDesignBody1TextBlock}"
+                             Grid.Row="0"
+                             Grid.Column="0"
+                             VerticalAlignment="Center"
+                             Margin="0,0,16,16"/>
+                    <DatePicker x:Name="ExpectedDate"
+                              Grid.Row="0"
+                              Grid.Column="1"
+                              Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                              Width="300"
+                              Height="56"
+                              HorizontalAlignment="Left"
+                              materialDesign:HintAssist.Hint="Select date"
+                              SelectedDateChanged="ValidDate"/>
+
+                    <!-- Message -->
+                    <TextBlock Text="Message:" 
+                             Style="{StaticResource MaterialDesignBody1TextBlock}"
+                             Grid.Row="1"
+                             Grid.Column="0"
+                             VerticalAlignment="Top"
+                             Margin="0,16,16,0"/>
+                    <TextBox x:Name="Message"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Width="300"
+                            Height="120"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Top"
+                            materialDesign:HintAssist.Hint="Enter your message"
+                            Margin="0,16,0,0"/>
+
+                    <!-- Save Button -->
+                    <Button x:Name="Save"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="💾 Submit Request"
+                            Height="45"
+                            Width="300"
+                            HorizontalAlignment="Left"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Margin="0,32,0,0"
+                            Click="Save_Click"/>
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

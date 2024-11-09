@@ -3,101 +3,177 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="EmployeeNotificationList" Height="450" Width="800">
+        Title="Employee Notifications" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
+    
     <Window.Resources>
-        <local:StatusConverter  x:Key="StatusConverter"/>
+        <local:StatusConverter x:Key="StatusConverter"/>
     </Window.Resources>
-    <DockPanel>
-        <!-- Top Header with Centered Title -->
-        <DockPanel DockPanel.Dock="Top" Height="70" Background="#34495E">
-            <TextBlock Text="Employee Notifications" FontSize="28" FontWeight="Bold" 
-           Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-        </DockPanel>
 
-        <!-- Left Navigation Panel with Buttons and Icons -->
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#34495E" Margin="0,0,5,0">
-            <TextBlock Text="Notifications" FontSize="20" FontWeight="Bold" Margin="10,15,10,5" Foreground="White"/>
-            <Button x:Name="Logout" Content="📴 Back To Home" Margin="10,5" Height="45" Width="180"  
-        Background="Red" Foreground="White" FontSize="16" FontWeight="Medium" Click="Logout_Click"/>
-        </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Main Content Area with a Placeholder Section -->
-        <Grid x:Name="MainContentGrid" Margin="10">
-            <!-- Default Content -->
-            <TextBlock x:Name="DefaultContent" Text="Handled requirements."
-           FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="29,10,0,0"/>
-            <DataGrid x:Name="DataGridApprovedNotifications" AutoGenerateColumns="False" Height="112"  Canvas.Left="10" Canvas.Top="52" HorizontalAlignment="Center" VerticalAlignment="Bottom" CanUserAddRows="False" Margin="0,0,0,196" >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="140"/>
-                    <DataGridTextColumn Header="Message" Binding="{Binding Message }" Width="250"/>
-                    <DataGridTemplateColumn Header="Expected Date" Width="85">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CreatedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Status" Binding="{Binding IsApproved, Converter={StaticResource StatusConverter}}" Width="90"/>
-                    <DataGridTemplateColumn Header="" Width="70">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="❌ Remove" Click="OpenBoxForHandle" Tag="{Binding NotificationId}" Background="Red" Foreground="White"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Notifications" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-            <!-- Department Management Section -->
-            <StackPanel x:Name="DepartmentSection" Visibility="Collapsed">
-                <TextBlock Text="Department Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridDepartments" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-
-            <!-- Salary Management Section -->
-            <StackPanel x:Name="SalarySection" Visibility="Collapsed">
-                <TextBlock Text="Salary Management" FontSize="18" Margin="10"/>
-                <DataGrid x:Name="DataGridSalaries" AutoGenerateColumns="True" Margin="10"/>
-            </StackPanel>
-
-            <DataGrid x:Name="DataGridUnApprovedNotifications" AutoGenerateColumns="False" Height="112"  HorizontalAlignment="Center" VerticalAlignment="Top" CanUserAddRows="False" Margin="0,186,0,0" >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="140"/>
-                    <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="250"/>
-                    <DataGridTemplateColumn Header="Expected Date" Width="85">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding CreatedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Status" Binding="{Binding IsApproved, Converter={StaticResource StatusConverter}}" Width="90"/>
-                    <DataGridTemplateColumn Header="" Width="70">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="❌ Remove" Click="OpenBoxForNotHandel" Tag="{Binding NotificationId}" Background="Red" Foreground="White"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <TextBlock x:Name="DefaultContent_Copy" Text="Requirements in progress."
-                FontSize="16" Foreground="Gray" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="29,156,0,0"/>
-            <Border x:Name="ConfirmBox" Background="#2C3E50" CornerRadius="10" Padding="10" Width="300" Height="140" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="2" Canvas.Top="-4" Margin="143,0,0,0" Grid.Row="1" Visibility="Hidden"  >
-                <StackPanel>
-                    <TextBlock x:Name="MessageConfirm" Text="Are you sure you want to proceed?" 
-Foreground="White" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,20,0,20"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button x:Name="ApproveConfirm" Content="Yes" Width="100" Margin="10" 
- Background="#27AE60" Foreground="White" Click="ApproveConfirmation" Height="25"/>
-                        <Button x:Name="DisapproveConfirm" Content="No" Width="100" Margin="10" 
- Background="#E74C3C" Foreground="White" Click="DisapproveConfirmation" Height="27"/>
-                    </StackPanel>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button x:Name="Logout"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🏠 Back To Home"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="Logout_Click"/>
                 </StackPanel>
-            </Border>
-        </Grid>
-        
-    </DockPanel>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid x:Name="MainContentGrid" Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Handled Requirements Section -->
+                <TextBlock Text="Handled requirements"
+                         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                         Foreground="#2196F3"
+                         Grid.Row="0"
+                         Margin="0,0,0,16"/>
+
+                <DataGrid x:Name="DataGridApprovedNotifications" 
+                         Grid.Row="1"
+                         Style="{StaticResource MaterialDesignDataGrid}"
+                         AutoGenerateColumns="False"
+                         CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="140"/>
+                        <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="*"/>
+                        <DataGridTemplateColumn Header="Expected Date" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreatedDate, StringFormat={}{0:dd/MM/yyyy}}"
+                                             VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Status" 
+                                          Binding="{Binding IsApproved, Converter={StaticResource StatusConverter}}" 
+                                          Width="100"/>
+                        <DataGridTemplateColumn Header="Actions" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                            Content="❌ Remove"
+                                            Height="30"
+                                            BorderBrush="#F44336"
+                                            Foreground="#F44336"
+                                            Click="OpenBoxForHandle"
+                                            Tag="{Binding NotificationId}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Requirements in Progress Section -->
+                <TextBlock Text="Requirements in progress"
+                         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                         Foreground="#2196F3"
+                         Grid.Row="2"
+                         Margin="0,16"/>
+
+                <DataGrid x:Name="DataGridUnApprovedNotifications" 
+                         Grid.Row="3"
+                         Style="{StaticResource MaterialDesignDataGrid}"
+                         AutoGenerateColumns="False"
+                         CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="140"/>
+                        <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="*"/>
+                        <DataGridTemplateColumn Header="Expected Date" Width="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreatedDate, StringFormat={}{0:dd/MM/yyyy}}"
+                                             VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Status" 
+                                          Binding="{Binding IsApproved, Converter={StaticResource StatusConverter}}" 
+                                          Width="100"/>
+                        <DataGridTemplateColumn Header="Actions" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                            Content="❌ Remove"
+                                            Height="30"
+                                            BorderBrush="#F44336"
+                                            Foreground="#F44336"
+                                            Click="OpenBoxForNotHandel"
+                                            Tag="{Binding NotificationId}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Confirmation Dialog -->
+                <materialDesign:DialogHost Grid.Row="0" Grid.RowSpan="4" x:Name="ConfirmBox" Visibility="Hidden">
+                    <materialDesign:Card Width="300" Padding="16">
+                        <StackPanel>
+                            <TextBlock x:Name="MessageConfirm"
+                                     Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                     TextAlignment="Center"
+                                     Margin="0,0,0,16"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="ApproveConfirm"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Content="Yes"
+                                        Width="100"
+                                        Margin="8,0"
+                                        Background="#4CAF50"
+                                        Foreground="White"
+                                        Click="ApproveConfirmation"/>
+                                <Button x:Name="DisapproveConfirm"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Content="No"
+                                        Width="100"
+                                        Margin="8,0"
+                                        BorderBrush="#F44336"
+                                        Foreground="#F44336"
+                                        Click="DisapproveConfirmation"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </materialDesign:DialogHost>
+            </Grid>
+        </materialDesign:Card>
+    </Grid>
 </Window>

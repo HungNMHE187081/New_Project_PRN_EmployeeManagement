@@ -3,117 +3,260 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFApp"
-        mc:Ignorable="d"
-        Title="DepartmentDetail" Height="450" Width="800">
-    <DockPanel>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Department Detail" 
+        Height="700" 
+        Width="1200"
+        WindowStartupLocation="CenterScreen"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="WhiteSmoke">
 
-        <!-- Top section with a header using DockPanel -->
-        <DockPanel x:Name="Nav" DockPanel.Dock="Top" Height="50" Background="#2C3E50">
-            <TextBlock Text="Employee Management" FontSize="24" FontWeight="Bold" 
-       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-        </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Left navigation menu using StackPanel and DockPanel -->
-        <StackPanel x:Name="Sidebar" DockPanel.Dock="Left" Width="150" Background="#34495E">
-            <TextBlock FontSize="18" FontWeight="Bold" Margin="10" Foreground="White">
-                <Run Text="New "/><LineBreak/><Run Text="Department"/>
-            </TextBlock>
-            <Button Content="🔙 Back To List" Margin="5" Height="40" Width="137" Click="BackButton_Click" Background="#007ACC" Foreground="White" FontWeight="Bold"/>
-        </StackPanel>
+        <!-- Left Sidebar -->
+        <materialDesign:Card Grid.Column="0" Background="White" Margin="16,16,8,16">
+            <DockPanel>
+                <!-- Header -->
+                <materialDesign:ColorZone Mode="PrimaryMid" 
+                                        DockPanel.Dock="Top"
+                                        Padding="16"
+                                        Background="#2196F3">
+                    <TextBlock Text="Department Detail" 
+                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                             Foreground="White"/>
+                </materialDesign:ColorZone>
 
-        <!-- Main content area using Grid -->
-        <Grid Background="White" Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Department details section -->
-            <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0,0,0,10">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                    <TextBlock Text="Department Name" VerticalAlignment="Center" Margin="0,0,27,0"/>
-                    <TextBox x:Name="DepartmentName" Width="200" Margin="0,0,10,0"/>
-                    <Button x:Name="Edit" Content="✏️ Edit" Click="EditDepartment_Click" Background="#1ABC9C" Foreground="White"/>
+                <!-- Navigation Buttons -->
+                <StackPanel Margin="16">
+                    <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                            Content="🔙 Back To List"
+                            Height="45"
+                            Margin="0,4"
+                            Background="#2196F3"
+                            Foreground="White"
+                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Click="BackButton_Click"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Number Of Employee" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <TextBox x:Name="NumberOfEmployee" Width="200" IsReadOnly="True"/>
-                    <Button Content="➕ Assign New Employee" Margin="10,0,0,0" Click="Button_Click" Background="#1ABC9C" Foreground="White"/>
-                </StackPanel>
-            </StackPanel>
+            </DockPanel>
+        </materialDesign:Card>
 
-            <!-- DataGrid section -->
-            <DataGrid x:Name="DataGridEmployee" AutoGenerateColumns="False" CanUserAddRows="False" Background="White" AlternatingRowBackground="#ECF0F1" RowBackground="White" Margin="0,24,88,0" Grid.Row="1">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header=" ID" Binding="{Binding EmployeeID}" Width="40"/>
-                    <DataGridTextColumn Header="Name" Binding="{Binding FullName}" Width="110"/>
-                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="52"/>
-                    <DataGridTemplateColumn Header="BirthDate" Width="120">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding BirthDate, StringFormat={}{0:dd-MM-yyyy}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="100"/>
-                    <DataGridTemplateColumn Header="Unassigned" Width="75">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="❌ Unassigned" Click="OpenForRemoveBox" Tag="{Binding DepartmentId}" Background="#E74C3C" Foreground="White"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Border x:Name="ConfirmBox" Background="#2C3E50" CornerRadius="10" Padding="10" Width="343" Height="121" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="2" Canvas.Top="-4" Margin="0,182,0,0" Grid.RowSpan="2" Visibility="Hidden" Panel.ZIndex="1">
-                <StackPanel>
-                    <TextBlock x:Name="MessageConfirm" 
-Foreground="White" FontSize="16" FontWeight="Bold" TextAlignment="Center" Margin="0,20,0,20"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button x:Name="ApproveConfirm" Content="Yes" Width="100" Margin="10" 
- Background="#27AE60" Foreground="White" Click="ApproveConfirmation" Height="25"/>
-                        <Button x:Name="DisapproveConfirm" Content="No" Width="100" Margin="10" 
- Background="#E74C3C" Foreground="White" Click="DisapproveConfirmation" Height="27"/>
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-
-            <!-- Assign Employee section -->
-            <Grid x:Name="AssignEmployee" Background="AliceBlue"  Margin="0,-4,0,0" Grid.RowSpan="2" Visibility="Hidden" >
+        <!-- Main Content -->
+        <materialDesign:Card Grid.Column="1" Background="White" Margin="8,16,16,16">
+            <Grid Margin="16">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="280"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="DepartmentNameonCanvas" Text="Assign Employees To Department " Grid.Row="0" Margin="10"/>
-                <DataGrid x:Name="DataGridUnasignedEmployee" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="1" Background="White" AlternatingRowBackground="#ECF0F1" RowBackground="White" SelectionChanged="DataGridUnasignedEmployee_SelectionChanged">
+
+                <!-- Department Details Section -->
+                <StackPanel Grid.Row="0" Margin="0,0,0,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Department Name" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,16,8"
+                                 Grid.Row="0"/>
+                        <TextBox x:Name="DepartmentName"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Height="45"
+                                Margin="0,0,16,8"/>
+                        <Button x:Name="Edit"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Content="✏️ Edit"
+                                Height="45"
+                                Background="#2196F3"
+                                Foreground="White"
+                                Click="EditDepartment_Click"/>
+
+                        <TextBlock Text="Number Of Employee" 
+                                 Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,16,0"
+                                 Grid.Row="1"/>
+                        <TextBox x:Name="NumberOfEmployee"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Height="45"
+                                IsReadOnly="True"
+                                Margin="0,0,16,0"/>
+                        <Button Grid.Row="1"
+                                Grid.Column="2"
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                Content="➕ Assign Employee"
+                                Height="45"
+                                Background="#2196F3"
+                                Foreground="White"
+                                Click="Button_Click"/>
+                    </Grid>
+                </StackPanel>
+
+                <!-- Employee DataGrid -->
+                <DataGrid x:Name="DataGridEmployee" 
+                         Grid.Row="1"
+                         Style="{StaticResource MaterialDesignDataGrid}"
+                         AutoGenerateColumns="False"
+                         CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" Width="100"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding FullName}" Width="110"/>
-                        <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" Width="52"/>
-                        <DataGridTemplateColumn Header="BirthDate" Width="120">
+                        <DataGridTextColumn Header="ID" 
+                                          Binding="{Binding EmployeeID}" 
+                                          Width="60"/>
+                        <DataGridTextColumn Header="Name" 
+                                          Binding="{Binding FullName}" 
+                                          Width="*"/>
+                        <DataGridTextColumn Header="Gender" 
+                                          Binding="{Binding Gender}" 
+                                          Width="80"/>
+                        <DataGridTemplateColumn Header="Birth Date" 
+                                              Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding BirthDate, StringFormat={}{0:dd-MM-yyyy}}"/>
+                                    <TextBlock Text="{Binding BirthDate, StringFormat={}{0:dd-MM-yyyy}}"
+                                             VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="100"/>
-                        <DataGridTemplateColumn Header="Assign" Width="75">
+                        <DataGridTextColumn Header="Position" 
+                                          Binding="{Binding Position}" 
+                                          Width="120"/>
+                        <DataGridTemplateColumn Header="Actions" 
+                                              Width="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="✅ Assign" Click="OpenBoxForAssign" Tag="{Binding EmployeeId}" Background="#1ABC9C" Foreground="White"/>
+                                    <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                                            Content="❌ Remove"
+                                            Height="30"
+                                            BorderBrush="#F44336"
+                                            Foreground="#F44336"
+                                            Click="OpenForRemoveBox"
+                                            Tag="{Binding DepartmentId}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button x:Name="Exit" Content="🚪 Exit" Grid.Row="2" HorizontalAlignment="Right" Margin="10" Width="75" Click="Exit_Click" Background="#E74C3C" Foreground="White"/>
+
+                <!-- Confirmation Dialog -->
+                <materialDesign:DialogHost Grid.Row="0" Grid.RowSpan="2" x:Name="ConfirmBox" Visibility="Hidden">
+                    <materialDesign:Card Width="300" Padding="16">
+                        <StackPanel>
+                            <TextBlock x:Name="MessageConfirm"
+                                     Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                     TextAlignment="Center"
+                                     Margin="0,0,0,16"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button x:Name="ApproveConfirm"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Content="Yes"
+                                        Width="100"
+                                        Margin="8,0"
+                                        Background="#4CAF50"
+                                        Foreground="White"
+                                        Click="ApproveConfirmation"/>
+                                <Button x:Name="DisapproveConfirm"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Content="No"
+                                        Width="100"
+                                        Margin="8,0"
+                                        BorderBrush="#F44336"
+                                        Foreground="#F44336"
+                                        Click="DisapproveConfirmation"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </materialDesign:DialogHost>
+
+                <!-- Assign Employee Dialog -->
+                <materialDesign:DialogHost Grid.Row="0" Grid.RowSpan="2" x:Name="AssignEmployee" Visibility="Hidden">
+                    <materialDesign:Card Width="800" Padding="16">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="DepartmentNameonCanvas"
+                                     Text="Assign Employees To Department"
+                                     Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                     Margin="0,0,0,16"/>
+
+                            <DataGrid x:Name="DataGridUnasignedEmployee"
+                                    Grid.Row="1"
+                                    Style="{StaticResource MaterialDesignDataGrid}"
+                                    AutoGenerateColumns="False"
+                                    Height="400"
+                                    SelectionChanged="DataGridUnasignedEmployee_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" 
+                                                      Binding="{Binding EmployeeId}" 
+                                                      Width="60"/>
+                                    <DataGridTextColumn Header="Name" 
+                                                      Binding="{Binding FullName}" 
+                                                      Width="*"/>
+                                    <DataGridTextColumn Header="Gender" 
+                                                      Binding="{Binding Gender}" 
+                                                      Width="80"/>
+                                    <DataGridTemplateColumn Header="Birth Date" 
+                                                          Width="120">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding BirthDate, StringFormat={}{0:dd-MM-yyyy}}"
+                                                         VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Position" 
+                                                      Binding="{Binding Position}" 
+                                                      Width="120"/>
+                                    <DataGridTemplateColumn Header="Actions" 
+                                                          Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Style="{StaticResource MaterialDesignRaisedButton}"
+                                                        Content="✅ Assign"
+                                                        Height="30"
+                                                        Background="#4CAF50"
+                                                        Foreground="White"
+                                                        Click="OpenBoxForAssign"
+                                                        Tag="{Binding EmployeeId}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="Exit"
+                                    Grid.Row="2"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                                    Content="🚪 Close"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,16,0,0"
+                                    BorderBrush="#F44336"
+                                    Foreground="#F44336"
+                                    Click="Exit_Click"/>
+                        </Grid>
+                    </materialDesign:Card>
+                </materialDesign:DialogHost>
             </Grid>
-        </Grid>
-    </DockPanel>
+        </materialDesign:Card>
+    </Grid>
 </Window>
